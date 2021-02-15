@@ -11,7 +11,7 @@ Implements itfLogerWriter
 
 	#tag Method, Flags = &h0
 		Sub add_writer(the_writer_id as string, the_writer as itfLogerWriter)
-		  Dim tmp As New clLogerWriterEntry
+		  Dim tmp As New  internals.clLogerWriterEntry
 		  
 		  tmp.identity = the_writer_id
 		  tmp.enabled = True
@@ -40,7 +40,7 @@ Implements itfLogerWriter
 
 	#tag Method, Flags = &h0
 		Sub disable_writer(the_id as string)
-		  For Each tmp As clLogerWriterEntry In writers
+		  For Each tmp As  internals.clLogerWriterEntry In writers
 		    If tmp.identity = the_id Then
 		      tmp.enabled = False
 		      
@@ -54,7 +54,7 @@ Implements itfLogerWriter
 
 	#tag Method, Flags = &h0
 		Sub enable_wrtier(the_id as string)
-		  For Each tmp As clLogerWriterEntry In writers
+		  For Each tmp As  internals.clLogerWriterEntry In writers
 		    If tmp.identity = the_id Then
 		      tmp.enabled = True
 		      
@@ -69,7 +69,7 @@ Implements itfLogerWriter
 		Private Sub internal_write_item(the_severity as string, the_source as string, the_message as string)
 		  Dim tmp_time As String  = Xojo.Core.Date.Now.ToText
 		  
-		  For Each tmp As clLogerWriterEntry In writers
+		  For Each tmp As  internals.clLogerWriterEntry In writers
 		    If tmp.enabled Then
 		      tmp.log_writer.add_log_entry(the_severity, tmp_time, the_source, the_message)
 		      
@@ -123,7 +123,7 @@ Implements itfLogerWriter
 		Sub task_end(the_task_id As String)
 		  
 		  Try
-		    Dim tmp As clLogerTimer = clLogerTimer(running_tasks.Value(the_task_id))
+		    Dim tmp As internals.clLogerTimer =  internals.clLogerTimer(running_tasks.Value(the_task_id))
 		    
 		    tmp.Done
 		    
@@ -163,7 +163,7 @@ Implements itfLogerWriter
 
 	#tag Method, Flags = &h0
 		Sub task_start(the_task_id As String)
-		  Dim tmp As New clLogerTimer(the_task_id)
+		  Dim tmp As New  internals.clLogerTimer(the_task_id)
 		  running_tasks.value(the_task_id) = tmp
 		  
 		  write_info cst_msg_task_start, the_task_id
@@ -298,11 +298,16 @@ Implements itfLogerWriter
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private writers() As clLogerWriterEntry
+		Private writers() As internals.clLogerWriterEntry
 	#tag EndProperty
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="error_limit_is_fatal"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
@@ -322,6 +327,16 @@ Implements itfLogerWriter
 			Visible=true
 			Group="ID"
 			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="send_info_message_on_error_reset"
+			Group="Behavior"
+			Type="boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="send_info_message_on_warning_reset"
+			Group="Behavior"
+			Type="boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"

@@ -1,26 +1,54 @@
 #tag Class
-Protected Class clLogerWriterEntry
-	#tag Note, Name = read me
-		Internal class used by clLoger to store log writer information
-		
-		
-	#tag EndNote
+Protected Class clLogerTimer
+	#tag Method, Flags = &h0
+		Sub Constructor(the_task_id as string)
+		  identifier = the_task_id
+		  start_time = Xojo.Core.Date.Now
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Done()
+		  end_time = Xojo.Core.Date.Now
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function get_execution_time() As double
+		  Dim interval As Xojo.Core.DateInterval
+		  interval = end_time - start_time
+		  
+		  Dim tmp_ret As Int64 = interval.nanoseconds
+		  
+		  Return tmp_ret / 100000000
+		  
+		  
+		End Function
+	#tag EndMethod
 
 
 	#tag Property, Flags = &h0
-		enabled As Boolean
+		end_time As Xojo.Core.Date
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		identity As String
+		identifier As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		log_writer As itfLogerWriter
+		start_time As Xojo.Core.Date
 	#tag EndProperty
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="identifier"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
