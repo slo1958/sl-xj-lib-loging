@@ -278,10 +278,10 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Open()
-		  myloger = New clLoger
-		  myLoger.add_writer "LB1", New clListBoxLogWriter(ListBox1)
-		  myLoger.add_writer "LB2", New clListBoxLogWriter(ListBox4)
-		  myLoger.add_writer "LB3", New clListBoxLogWriter(ListBox5)
+		  my_loging = New clLoging
+		  my_loging.add_writer "LB1", New clListBoxLogWriter(ListBox1)
+		  my_loging.add_writer "LB2", New clListBoxLogWriter(ListBox4)
+		  my_loging.add_writer "LB3", New clListBoxLogWriter(ListBox5)
 		  
 		  
 		End Sub
@@ -289,7 +289,7 @@ End
 
 
 	#tag Property, Flags = &h21
-		Private myLoger As clLoger
+		Private my_loging As clLoging
 	#tag EndProperty
 
 
@@ -299,7 +299,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoger = myLoger
+		  Dim tmp As clLoging = my_loging
 		  
 		  tmp.write_info("test1")
 		  
@@ -314,7 +314,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoger = myLoger
+		  Dim tmp As clLoging = my_loging
 		  
 		  tmp.write_error("test1")
 		  
@@ -330,7 +330,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoger = myLoger
+		  Dim tmp As clLoging = my_loging
 		  
 		  tmp.write_summary
 		  
