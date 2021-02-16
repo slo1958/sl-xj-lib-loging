@@ -16,7 +16,7 @@ Protected Class clLogingWriterEntry
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		log_writer As itfLogerWriter
+		log_writer As itfLogingWriter
 	#tag EndProperty
 
 

@@ -1,6 +1,6 @@
 #tag Class
 Protected Class clLoging
-Implements itfLogerWriter
+Implements itfLogingWriter
 	#tag Method, Flags = &h21
 		Private Sub add_log_entry(the_severity as string, the_time as string, the_source as string, the_message as string)
 		  // TODO: implement basic writer
@@ -10,7 +10,7 @@ Implements itfLogerWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub add_writer(the_writer_id as string, the_writer as itfLogerWriter)
+		Sub add_writer(the_writer_id as string, the_writer as itfLogingWriter)
 		  Dim tmp As New  internals.clLogingWriterEntry
 		  
 		  tmp.identity = the_writer_id
