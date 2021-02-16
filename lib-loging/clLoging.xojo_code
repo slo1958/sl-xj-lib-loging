@@ -65,6 +65,18 @@ Implements itfLogerWriter
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Shared Function get_default_loging_support() As clLoging
+		  If default_loging = Nil Then
+		    default_loging = New clLoging
+		    
+		  End If
+		  
+		  Return default_loging
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub internal_write_item(the_severity as string, the_source as string, the_message as string)
 		  Dim tmp_time As String  = Xojo.Core.Date.Now.ToText
@@ -222,6 +234,10 @@ Implements itfLogerWriter
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private Shared default_loging As clLoging
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private error_counter As Integer

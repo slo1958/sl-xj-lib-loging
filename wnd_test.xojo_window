@@ -278,19 +278,16 @@ End
 #tag WindowCode
 	#tag Event
 		Sub Open()
-		  my_loging = New clLoging
+		  // attach three logwriters updating a listbox
+		  Dim my_loging As clLoging = clloging.get_default_loging_support
 		  my_loging.add_writer "LB1", New clListBoxLogWriter(ListBox1)
 		  my_loging.add_writer "LB2", New clListBoxLogWriter(ListBox4)
 		  my_loging.add_writer "LB3", New clListBoxLogWriter(ListBox5)
 		  
+		  my_loging.add_writer "TF1", New clTextfileLogWriter( SpecialFolder.Desktop, "test%.txt","%")
 		  
 		End Sub
 	#tag EndEvent
-
-
-	#tag Property, Flags = &h21
-		Private my_loging As clLoging
-	#tag EndProperty
 
 
 #tag EndWindowCode
@@ -299,7 +296,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoging = my_loging
+		  Dim tmp As clLoging = clloging.get_default_loging_support
 		  
 		  tmp.write_info("test1")
 		  
@@ -314,7 +311,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoging = my_loging
+		  Dim tmp As clLoging = clloging.get_default_loging_support
 		  
 		  tmp.write_error("test1")
 		  
@@ -330,7 +327,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoging = my_loging
+		  Dim tmp As clLoging = clloging.get_default_loging_support
 		  
 		  tmp.write_summary
 		  
