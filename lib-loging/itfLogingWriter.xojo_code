@@ -1,5 +1,5 @@
 #tag Interface
-Protected Interface itfLogerWriter
+Protected Interface itfLogingWriter
 	#tag Method, Flags = &h0
 		Sub add_log_entry(the_severity as string, the_time as string, the_source as string, the_message as string)
 		  

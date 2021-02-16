@@ -112,7 +112,7 @@ Implements itfLogingWriter
 		  error_counter = 0
 		  
 		  If send_info_message_on_error_reset Then
-		    write_info cst_msg_error_counter_reset
+		    write_info cst_msg_reset_error_counter
 		    
 		  End If
 		  
@@ -124,10 +124,26 @@ Implements itfLogingWriter
 		  warning_counter = 0
 		  
 		  If send_info_message_on_warning_reset Then
-		    write_info cst_msg_warning_counter_reset
+		    write_info cst_msg_reset_warning_counter
 		    
 		  End If
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub set_error_limit(the_limit as integer)
+		  error_limit = the_limit
+		  
+		  write_info cst_msg_set_error_limit, error_limit
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub set_warning_limit(the_limit as integer)
+		  warning_limit = the_limit
+		  
+		  write_info cst_msg_set_warning_limit, warning_limit
 		End Sub
 	#tag EndMethod
 
@@ -192,12 +208,28 @@ Implements itfLogingWriter
 		    Return
 		    
 		  Elseif error_counter = error_limit Then
-		    internal_write_item cst_severitty_warning, "", cst_msg_error_msg_disabled
+		    If error_limit_is_fatal Then
+		      write_fatal_error cst_msg_reached_error_limit, error_limit
+		      
+		    Else
+		      internal_write_item cst_severitty_warning, "", cst_msg_error_msg_disabled
+		      
+		    End If
 		    
 		  Else
 		    internal_write_item cst_severity_error, "", process_parameters(the_message, the_parameters)
 		    
 		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub write_fatal_error(the_message as string, ParamArray the_parameters as variant)
+		  
+		  internal_write_item cst_severity_fatal_error, "", process_parameters(the_message, the_parameters)
+		  
+		  Quit -1
 		  
 		End Sub
 	#tag EndMethod
