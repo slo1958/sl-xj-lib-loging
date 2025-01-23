@@ -1,9 +1,9 @@
 #tag Class
 Protected Class clLogingTimer
 	#tag Method, Flags = &h0
-		Sub Constructor(the_task_id as string)
-		  identifier = the_task_id
-		  start_time = Xojo.Core.Date.Now
+		Sub Constructor(pTaskId as string)
+		  identifier = pTaskId
+		  start_time = DateTime.now
 		  
 		  
 		End Sub
@@ -11,19 +11,21 @@ Protected Class clLogingTimer
 
 	#tag Method, Flags = &h0
 		Sub Done()
-		  end_time = Xojo.Core.Date.Now
+		  end_time = DateTime.now
+		  
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function get_execution_time() As double
-		  Dim interval As Xojo.Core.DateInterval
-		  interval = end_time - start_time
+		Function GetExecutionTime() As double
 		  
-		  Dim tmp_ret As Int64 = interval.nanoseconds
 		  
-		  Return tmp_ret / 100000000
+		  var interval as integer
+		  
+		  interval = end_time.Nanosecond - start_time.Nanosecond
+		  
+		  Return interval / 100000000
 		  
 		  
 		End Function
@@ -31,7 +33,7 @@ Protected Class clLogingTimer
 
 
 	#tag Property, Flags = &h0
-		end_time As Xojo.Core.Date
+		end_time As DateTime
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -39,15 +41,18 @@ Protected Class clLogingTimer
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		start_time As Xojo.Core.Date
+		start_time As DateTime
 	#tag EndProperty
 
 
 	#tag ViewBehavior
 		#tag ViewProperty
 			Name="identifier"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -55,6 +60,7 @@ Protected Class clLogingTimer
 			Group="ID"
 			InitialValue="-2147483648"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
@@ -62,18 +68,23 @@ Protected Class clLogingTimer
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
@@ -81,6 +92,7 @@ Protected Class clLogingTimer
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

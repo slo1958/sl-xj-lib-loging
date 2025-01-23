@@ -3,7 +3,6 @@ Begin Window wnd_test
    BackColor       =   &cFFFFFF00
    Backdrop        =   0
    CloseButton     =   True
-   Compatibility   =   ""
    Composite       =   False
    Frame           =   0
    FullScreen      =   False
@@ -11,7 +10,7 @@ Begin Window wnd_test
    HasBackColor    =   False
    Height          =   534
    ImplicitInstance=   True
-   LiveResize      =   True
+   LiveResize      =   "True"
    MacProcID       =   0
    MaxHeight       =   32000
    MaximizeButton  =   True
@@ -70,6 +69,7 @@ Begin Window wnd_test
       TextSize        =   11.0
       TextUnit        =   0
       Top             =   20
+      Transparent     =   False
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -80,9 +80,9 @@ Begin Window wnd_test
    Begin PushButton PushButton1
       AutoDeactivate  =   True
       Bold            =   False
-      ButtonStyle     =   "0"
+      ButtonStyle     =   0
       Cancel          =   False
-      Caption         =   "Button"
+      Caption         =   "Start HA1"
       Default         =   False
       Enabled         =   True
       Height          =   20
@@ -104,9 +104,10 @@ Begin Window wnd_test
       TextSize        =   11.0
       TextUnit        =   0
       Top             =   470
+      Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   80
+      Width           =   100
    End
    Begin Listbox Listbox5
       AutoDeactivate  =   True
@@ -152,6 +153,7 @@ Begin Window wnd_test
       TextSize        =   11.0
       TextUnit        =   0
       Top             =   310
+      Transparent     =   False
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -203,6 +205,7 @@ Begin Window wnd_test
       TextSize        =   11.0
       TextUnit        =   0
       Top             =   165
+      Transparent     =   False
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -213,9 +216,9 @@ Begin Window wnd_test
    Begin PushButton PushButton2
       AutoDeactivate  =   True
       Bold            =   False
-      ButtonStyle     =   "0"
+      ButtonStyle     =   0
       Cancel          =   False
-      Caption         =   "Button"
+      Caption         =   "End HA1"
       Default         =   False
       Enabled         =   True
       Height          =   20
@@ -237,16 +240,17 @@ Begin Window wnd_test
       TextSize        =   11.0
       TextUnit        =   0
       Top             =   470
+      Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   80
+      Width           =   100
    End
    Begin PushButton PushButton3
       AutoDeactivate  =   True
       Bold            =   False
-      ButtonStyle     =   "0"
+      ButtonStyle     =   0
       Cancel          =   False
-      Caption         =   "Button"
+      Caption         =   "Summary"
       Default         =   False
       Enabled         =   True
       Height          =   20
@@ -254,7 +258,7 @@ Begin Window wnd_test
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
-      Left            =   500
+      Left            =   484
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
@@ -267,10 +271,107 @@ Begin Window wnd_test
       TextFont        =   "Verdana"
       TextSize        =   11.0
       TextUnit        =   0
-      Top             =   470
+      Top             =   494
+      Transparent     =   False
       Underline       =   False
       Visible         =   True
-      Width           =   80
+      Width           =   96
+   End
+   Begin PushButton PushButton4
+      AutoDeactivate  =   True
+      Bold            =   False
+      ButtonStyle     =   0
+      Cancel          =   False
+      Caption         =   "Start HA2"
+      Default         =   False
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   30
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   7
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "Verdana"
+      TextSize        =   11.0
+      TextUnit        =   0
+      Top             =   502
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   100
+   End
+   Begin PushButton PushButton5
+      AutoDeactivate  =   True
+      Bold            =   False
+      ButtonStyle     =   0
+      Cancel          =   False
+      Caption         =   "End HA2"
+      Default         =   False
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   215
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   8
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "Verdana"
+      TextSize        =   11.0
+      TextUnit        =   0
+      Top             =   502
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   100
+   End
+   Begin PushButton PushButton6
+      AutoDeactivate  =   True
+      Bold            =   False
+      ButtonStyle     =   0
+      Cancel          =   False
+      Caption         =   "End all"
+      Default         =   False
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   484
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      TabIndex        =   9
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "Verdana"
+      TextSize        =   11.0
+      TextUnit        =   0
+      Top             =   470
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   96
    End
 End
 #tag EndWindow
@@ -279,12 +380,12 @@ End
 	#tag Event
 		Sub Open()
 		  // attach three logwriters updating a listbox
-		  Dim my_loging As clLoging = clloging.get_default_loging_support
-		  my_loging.add_writer "LB1", New clListBoxLogWriter(ListBox1)
-		  my_loging.add_writer "LB2", New clListBoxLogWriter(ListBox4)
-		  my_loging.add_writer "LB3", New clListBoxLogWriter(ListBox5)
+		  var my_loging As clLoging = clloging.get_default_loging_support
+		  my_loging.AddWriter "LB1", New clListBoxLogWriter(ListBox1)
+		  my_loging.AddWriter "LB2", New clListBoxLogWriter(ListBox4)
+		  my_loging.AddWriter "LB3", New clListBoxLogWriter(ListBox5)
 		  
-		  my_loging.add_writer "TF1", New clTextfileLogWriter( SpecialFolder.Desktop, "test%.txt","%")
+		  my_loging.AddWriter "TF1", New clTextfileLogWriter( SpecialFolder.Desktop, "test%.txt","%")
 		  
 		End Sub
 	#tag EndEvent
@@ -296,13 +397,13 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.get_default_loging_support
 		  
-		  tmp.write_info("test1")
+		  tmp.WriteInfo("test1")
 		  
-		  tmp.write_warning("test2")
+		  tmp.WriteWarning("test2")
 		  
-		  tmp.task_start "HA1"
+		  tmp.TaskStart "HA1"
 		  
 		End Sub
 	#tag EndEvent
@@ -311,14 +412,13 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.get_default_loging_support
 		  
-		  tmp.write_error("test1")
+		  tmp.WriteError("test1")
 		  
-		  tmp.write_warning("test2")
+		  tmp.WriteWarning("test2")
 		  
-		  
-		  tmp.task_end "HA1"
+		  tmp.TaskEnd "HA1"
 		  
 		End Sub
 	#tag EndEvent
@@ -327,11 +427,53 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  Dim tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.get_default_loging_support
 		  
-		  tmp.write_summary
+		  tmp.WriteSummary
 		  
-		  tmp.task_end_all
+		  tmp.TaskEndAll
+		  
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PushButton4
+	#tag Event
+		Sub Action()
+		  
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.WriteInfo("test1")
+		  
+		  tmp.WriteWarning("test2")
+		  
+		  tmp.TaskStart "HA2"
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PushButton5
+	#tag Event
+		Sub Action()
+		  
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.WriteError("test1")
+		  
+		  tmp.WriteWarning("test2")
+		  
+		  tmp.TaskEnd "HA2"
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PushButton6
+	#tag Event
+		Sub Action()
+		  
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.TaskEndAll
 		  
 		  
 		End Sub
@@ -339,39 +481,43 @@ End
 #tag EndEvents
 #tag ViewBehavior
 	#tag ViewProperty
-		Name="BackColor"
+		Name="MinimumWidth"
 		Visible=true
-		Group="Background"
-		InitialValue="&hFFFFFF"
-		Type="Color"
+		Group="Size"
+		InitialValue="64"
+		Type="Integer"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="Backdrop"
+		Name="MinimumHeight"
 		Visible=true
-		Group="Background"
-		Type="Picture"
-		EditorType="Picture"
+		Group="Size"
+		InitialValue="64"
+		Type="Integer"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="CloseButton"
+		Name="MaximumWidth"
 		Visible=true
-		Group="Frame"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType="Boolean"
+		Group="Size"
+		InitialValue="32000"
+		Type="Integer"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="Composite"
-		Group="OS X (Carbon)"
-		InitialValue="False"
-		Type="Boolean"
+		Name="MaximumHeight"
+		Visible=true
+		Group="Size"
+		InitialValue="32000"
+		Type="Integer"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="Frame"
+		Name="Type"
 		Visible=true
 		Group="Frame"
 		InitialValue="0"
-		Type="Integer"
+		Type="Types"
 		EditorType="Enum"
 		#tag EnumValues
 			"0 - Document"
@@ -388,134 +534,43 @@ End
 		#tag EndEnumValues
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="FullScreen"
-		Group="Behavior"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType="Boolean"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="FullScreenButton"
-		Visible=true
-		Group="Frame"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType="Boolean"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="HasBackColor"
-		Visible=true
-		Group="Background"
-		InitialValue="False"
-		Type="Boolean"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Height"
-		Visible=true
-		Group="Size"
-		InitialValue="400"
-		Type="Integer"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="ImplicitInstance"
-		Visible=true
-		Group="Behavior"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType="Boolean"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Interfaces"
-		Visible=true
-		Group="ID"
-		Type="String"
-		EditorType="String"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="LiveResize"
-		Group="Behavior"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType="Boolean"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MacProcID"
-		Group="OS X (Carbon)"
-		InitialValue="0"
-		Type="Integer"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MaxHeight"
-		Visible=true
-		Group="Size"
-		InitialValue="32000"
-		Type="Integer"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MaximizeButton"
+		Name="HasCloseButton"
 		Visible=true
 		Group="Frame"
 		InitialValue="True"
 		Type="Boolean"
-		EditorType="Boolean"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="MaxWidth"
-		Visible=true
-		Group="Size"
-		InitialValue="32000"
-		Type="Integer"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MenuBar"
-		Visible=true
-		Group="Menus"
-		Type="MenuBar"
-		EditorType="MenuBar"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MenuBarVisible"
-		Visible=true
-		Group="Deprecated"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType="Boolean"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MinHeight"
-		Visible=true
-		Group="Size"
-		InitialValue="64"
-		Type="Integer"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MinimizeButton"
+		Name="HasMaximizeButton"
 		Visible=true
 		Group="Frame"
 		InitialValue="True"
 		Type="Boolean"
-		EditorType="Boolean"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="MinWidth"
+		Name="HasMinimizeButton"
 		Visible=true
-		Group="Size"
-		InitialValue="64"
-		Type="Integer"
+		Group="Frame"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="Name"
+		Name="HasFullScreenButton"
 		Visible=true
-		Group="ID"
-		Type="String"
-		EditorType="String"
+		Group="Frame"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="Placement"
+		Name="DefaultLocation"
 		Visible=true
 		Group="Behavior"
 		InitialValue="0"
-		Type="Integer"
+		Type="Locations"
 		EditorType="Enum"
 		#tag EnumValues
 			"0 - Default"
@@ -526,19 +581,116 @@ End
 		#tag EndEnumValues
 	#tag EndViewProperty
 	#tag ViewProperty
+		Name="HasBackgroundColor"
+		Visible=true
+		Group="Background"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="BackgroundColor"
+		Visible=true
+		Group="Background"
+		InitialValue="&hFFFFFF"
+		Type="Color"
+		EditorType="Color"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Backdrop"
+		Visible=true
+		Group="Background"
+		InitialValue=""
+		Type="Picture"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Composite"
+		Visible=false
+		Group="OS X (Carbon)"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="FullScreen"
+		Visible=false
+		Group="Behavior"
+		InitialValue="False"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Height"
+		Visible=true
+		Group="Size"
+		InitialValue="400"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="ImplicitInstance"
+		Visible=true
+		Group="Behavior"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Interfaces"
+		Visible=true
+		Group="ID"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MacProcID"
+		Visible=false
+		Group="OS X (Carbon)"
+		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MenuBar"
+		Visible=true
+		Group="Menus"
+		InitialValue=""
+		Type="MenuBar"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="MenuBarVisible"
+		Visible=true
+		Group="Deprecated"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Name"
+		Visible=true
+		Group="ID"
+		InitialValue=""
+		Type="String"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
 		Name="Resizeable"
 		Visible=true
 		Group="Frame"
 		InitialValue="True"
 		Type="Boolean"
-		EditorType="Boolean"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Super"
 		Visible=true
 		Group="ID"
+		InitialValue=""
 		Type="String"
-		EditorType="String"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Title"
@@ -546,6 +698,7 @@ End
 		Group="Frame"
 		InitialValue="Untitled"
 		Type="String"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Visible"
@@ -553,7 +706,7 @@ End
 		Group="Behavior"
 		InitialValue="True"
 		Type="Boolean"
-		EditorType="Boolean"
+		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Width"
@@ -561,5 +714,6 @@ End
 		Group="Size"
 		InitialValue="600"
 		Type="Integer"
+		EditorType=""
 	#tag EndViewProperty
 #tag EndViewBehavior

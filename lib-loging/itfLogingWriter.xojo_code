@@ -1,7 +1,7 @@
 #tag Interface
 Protected Interface itfLogingWriter
 	#tag Method, Flags = &h0
-		Sub add_log_entry(the_severity as string, the_time as string, the_source as string, the_message as string)
+		Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
 		  
 		End Sub
 	#tag EndMethod
@@ -14,6 +14,7 @@ Protected Interface itfLogingWriter
 			Group="ID"
 			InitialValue="-2147483648"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
@@ -21,18 +22,23 @@ Protected Interface itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
@@ -40,6 +46,7 @@ Protected Interface itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Interface

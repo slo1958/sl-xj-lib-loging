@@ -2,22 +2,24 @@
 Protected Class clTextfileLogWriter
 Implements itfLogingWriter
 	#tag Method, Flags = &h0
-		Sub add_log_entry(the_severity as string, the_time as string, the_source as string, the_message as string)
+		Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
 		  // Part of the itfLogingWriter interface.
+		   
+		  var output As TextOutputStream
 		  
-		  Using Xojo.IO
-		  Using Xojo.Core
-		  
-		  Dim output As TextOutputStream
 		  Try
-		    output = TextOutputStream.Append(file_path, TextEncoding.UTF8)
-		    Dim tmp_line As String = the_time + field_separator + the_source + field_separator + the_Severity + field_separator + the_message
-		    output.WriteLine(tmp_line.totext)
+		    output = TextOutputStream.Append(file_path)
+		    
+		    var tmp_line() as string = array(the_time, the_source, the_severity, the_message)
+		    
+		    output.WriteLine(string.FromArray(tmp_line, field_separator))
+		    
 		    output.Close
-		    file_error = ""
+		    
+		    fileError = ""
 		    
 		  Catch e As IOException
-		    file_error = "Error appending to log: "+e.Message
+		    fileError = "Error appending to log: "+e.Message
 		    
 		  End Try
 		End Sub
@@ -28,40 +30,36 @@ Implements itfLogingWriter
 		  
 		  field_separator = Chr(9)
 		  
-		  Redim field_names(-1)
-		  field_names.Append("When")
-		  field_names.Append("Who")
-		  field_names.Append("Severity")
-		  field_names.Append("Message")
-		  
-		  If the_file_name.Len > 0 And the_folder <> Nil Then
-		    set_file_path(the_folder, the_file_name, the_time_stamp_place_holder)
+		  if the_file_name.trim.length > 0 and the_folder <> nil then 
+		    SetFilePath(the_folder, the_file_name, the_time_stamp_place_holder)
 		    
 		  End If
+		  
 		  
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function get_file_error() As String
-		  return file_error
+		Function GetFileError() As String
+		  return fileError
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function get_file_path() As FolderItem
-		  Return GetFolderItem(file_path.Path, FolderItem.PathTypeNative)
+		Function GetFilePath() As FolderItem
+		  Return self.file_path
+		  
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub set_file_path(the_folder as folderitem, the_file_name as string, the_time_stamp_place_holder as string="")
-		  Dim tmp_file_path As FolderItem
+		Sub SetFilePath(the_folder as folderitem, the_file_name as string, the_time_stamp_place_holder as string = "")
+		  var tmp_file_path As FolderItem
 		  
 		  If the_time_stamp_place_holder.Len > 0 Then
-		    Dim tmp_time As String  = Xojo.Core.Date.Now.ToText
+		    var tmp_time As String  =DateTime.Now.SQLDateTime
 		    tmp_time = tmp_time.ReplaceAll("-","")
 		    tmp_time = tmp_time.ReplaceAll(":","")
 		    tmp_time = tmp_time.ReplaceAll(" ","_")
@@ -73,22 +71,25 @@ Implements itfLogingWriter
 		    
 		  End If
 		  
-		  file_path = New Xojo.IO.FolderItem(tmp_file_path.NativePath.ToText)
+		  file_path = New FolderItem(tmp_file_path.NativePath)
 		  
-		  
-		  Using Xojo.Core
-		  Using Xojo.IO
-		  
-		  Dim output As TextOutputStream
-		  Try
-		    output = TextOutputStream.Create(file_path, TextEncoding.UTF8)
-		    Dim tmp_line As String = field_names(0) + Chr(9) + field_names(1) + Chr(9) + field_names(2) + Chr(9) + field_names(3)
-		    output.WriteLine(tmp_line.totext)
+		  try
+		    var output As TextOutputStream = TextOutputStream.Open(file_path)
+		    
+		    var field_names() as string
+		    field_names.Append(kWhen)
+		    field_names.Append(kWho)
+		    field_names.Append(kSeverity)
+		    field_names.Append(kMessage)
+		    
+		    output.WriteLine(string.FromArray(field_names, field_separator))
+		    
 		    output.Close
-		    file_error = ""
+		    
+		    fileError = ""
 		    
 		  Catch e As IOException
-		    file_error = "Error creating log file: "+e.Message
+		    fileError = "Error creating log file: "+e.Message
 		    
 		  End Try
 		End Sub
@@ -96,20 +97,29 @@ Implements itfLogingWriter
 
 
 	#tag Property, Flags = &h1
-		Protected field_names() As String
-	#tag EndProperty
-
-	#tag Property, Flags = &h1
 		Protected field_separator As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private file_error As String
+		Private fileError As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private file_path As Xojo.IO.FolderItem
+		Private file_path As FolderItem
 	#tag EndProperty
+
+
+	#tag Constant, Name = kMessage, Type = String, Dynamic = False, Default = \"Message", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = kSeverity, Type = String, Dynamic = False, Default = \"Severity", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = kWhen, Type = String, Dynamic = False, Default = \"\"When\"", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = kWho, Type = String, Dynamic = False, Default = \"Who", Scope = Public
+	#tag EndConstant
 
 
 	#tag ViewBehavior
@@ -119,6 +129,7 @@ Implements itfLogingWriter
 			Group="ID"
 			InitialValue="-2147483648"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
@@ -126,18 +137,23 @@ Implements itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
@@ -145,6 +161,7 @@ Implements itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

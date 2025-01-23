@@ -2,13 +2,13 @@
 Protected Class clListBoxLogWriter
 Implements itfLogingWriter
 	#tag Method, Flags = &h0
-		Sub add_log_entry(the_severity as string, the_time as string, the_source as string, the_message as string)
+		Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
 		  // Part of the itfLogingWriter interface.
 		  
 		  If mlb = Nil Then Return
 		  
 		  mlb.AddRow ""
-		  Dim row_num As Integer = mlb.LastIndex
+		  var row_num As Integer = mlb.LastIndex
 		  
 		  If mlb.ColumnCount >2 Then
 		    mlb.cell(row_num, 0 )  = the_time
@@ -48,6 +48,7 @@ Implements itfLogingWriter
 			Group="ID"
 			InitialValue="-2147483648"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
@@ -55,18 +56,23 @@ Implements itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
@@ -74,6 +80,7 @@ Implements itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

@@ -2,7 +2,7 @@
 Protected Class clLoging
 Implements itfLogingWriter
 	#tag Method, Flags = &h21
-		Private Sub add_log_entry(the_severity as string, the_time as string, the_source as string, the_message as string)
+		Private Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
 		  // TODO: implement basic writer
 		  
 		  System.DebugLog the_time+". " +the_severity + " " +  the_message
@@ -10,8 +10,8 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub add_writer(the_writer_id as string, the_writer as itfLogingWriter)
-		  Dim tmp As New  internals.clLogingWriterEntry
+		Sub AddWriter(the_writer_id as string, the_writer as itfLogingWriter)
+		  var tmp As New  internals.clLogingWriterEntry
 		  
 		  tmp.identity = the_writer_id
 		  tmp.enabled = True
@@ -23,23 +23,23 @@ Implements itfLogingWriter
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  
-		  running_tasks = new xojo.core.Dictionary
-		  
-		  add_writer cst_internal_writer_id, Self
+		  running_tasks = new Dictionary
+		  AddWriter cstInternalWriterId, Self
 		  
 		  error_limit = 50
 		  warning_limit = 50
 		  
-		  error_limit_is_fatal = False
-		  send_info_message_on_warning_reset = False
-		  send_info_message_on_error_reset = True
+		  ErrorLimitIsFatal = False
+		  SendInfoMessageOnWarningReset = False
+		  SendInfoMessageOnErrorReset = True
 		  
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub disable_writer(the_id as string)
+		Sub DisableWriter(the_id as string)
+		  
 		  For Each tmp As  internals.clLogingWriterEntry In writers
 		    If tmp.identity = the_id Then
 		      tmp.enabled = False
@@ -53,7 +53,8 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub enable_wrtier(the_id as string)
+		Sub EnableWriter(the_id as string)
+		  
 		  For Each tmp As  internals.clLogingWriterEntry In writers
 		    If tmp.identity = the_id Then
 		      tmp.enabled = True
@@ -78,24 +79,10 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub internal_write_item(the_severity as string, the_source as string, the_message as string)
-		  Dim tmp_time As String  = Xojo.Core.Date.Now.ToText
-		  
-		  For Each tmp As  internals.clLogingWriterEntry In writers
-		    If tmp.enabled Then
-		      tmp.log_writer.add_log_entry(the_severity, tmp_time, the_source, the_message)
-		      
-		    End If
-		    
-		  Next
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
-		Private Function process_parameters(the_message as string, the_parameters() as Variant) As string
+		Private Function internal_ProcessParameters(the_message as string, the_parameters() as Variant) As string
 		  // TODO: apply formatting
 		  
-		  Dim tmp_return As String = the_message
+		  var tmp_return As String = the_message
 		  
 		  For i As Integer = 0 To the_parameters.Ubound
 		    tmp_return = tmp_return.Replace("%"+Str(i), the_parameters(i))
@@ -107,12 +94,26 @@ Implements itfLogingWriter
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub internal_WriteItem(the_severity as string, the_source as string, the_message as string)
+		  var tmp_time As String  = DateTime.Now.SQLDateTime
+		  
+		  For Each tmp As  internals.clLogingWriterEntry In writers
+		    If tmp.enabled Then
+		      tmp.log_writer.AddLogEntry(the_severity, tmp_time, the_source, the_message)
+		      
+		    End If
+		    
+		  Next
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
-		Sub reset_error_counter()
+		Sub ResetErrorCounter()
 		  error_counter = 0
 		  
-		  If send_info_message_on_error_reset Then
-		    write_info cst_msg_reset_error_counter
+		  If SendInfoMessageOnErrorReset Then
+		    WriteInfo cstMsgResetErrorCounter
 		    
 		  End If
 		  
@@ -120,11 +121,11 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub reset_warning_counter()
+		Sub ResetWarningCounter()
 		  warning_counter = 0
 		  
-		  If send_info_message_on_warning_reset Then
-		    write_info cst_msg_reset_warning_counter
+		  If SendInfoMessageOnWarningReset Then
+		    WriteInfo cstMsgResetWarningCounter
 		    
 		  End If
 		  
@@ -132,35 +133,35 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub set_error_limit(the_limit as integer)
+		Sub SetErrorLimit(the_limit as integer)
 		  error_limit = the_limit
 		  
-		  write_info cst_msg_set_error_limit, error_limit
+		  WriteInfo cstMsgSetErrorLimit, error_limit
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub set_warning_limit(the_limit as integer)
+		Sub SetWarningLimit(the_limit as integer)
 		  warning_limit = the_limit
 		  
-		  write_info cst_msg_set_warning_limit, warning_limit
+		  WriteInfo cstMsgSetWarningLimit, warning_limit
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub task_end(the_task_id As String)
+		Sub TaskEnd(pTaskId As String)
 		  
 		  Try
-		    Dim tmp As internals.clLogingTimer =  internals.clLogingTimer(running_tasks.Value(the_task_id))
+		    var tmp As internals.clLogingTimer =  internals.clLogingTimer(running_tasks.Value(pTaskId))
 		    
 		    tmp.Done
 		    
-		    running_tasks.Remove the_task_id
+		    running_tasks.Remove(pTaskId)
 		    
-		    write_info cst_msg_task_end, the_task_id, Format(tmp.get_execution_time,"###,###.000")+" second(s)"
+		    WriteInfo cstMsgTaskEnd, pTaskId, Format(tmp.GetExecutionTime,"###,###.000")+" second(s)"
 		    
 		  Catch KeyNotFoundException
-		    write_error cst_msg_task_not_found, the_task_id, CurrentMethodName
+		    WriteError cstMsgTaskNotFound, pTaskId, CurrentMethodName
 		    
 		  End 
 		  
@@ -173,51 +174,63 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub task_end_all()
-		  Dim key_store() As String
+		Sub TaskEndAll()
+		  //
+		  // End all tasks
+		  //
+		  // Parameters:
+		  // (nothing)
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  var key_store() As String
 		  
 		  // cannot alter a Dictionary while iterating, so take a copy of the keys
-		  For Each item As  Xojo.Core.DictionaryEntry In running_tasks
-		    key_store.Append(item.key)
+		  For Each item As  string In running_tasks.keys
+		    key_store.Append(item)
 		    
 		  Next
 		  
 		  For Each task_id As String In key_store
-		    task_end task_id
+		    TaskEnd task_id
 		    
 		  Next
+		  
+		  Return
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub task_start(the_task_id As String)
-		  Dim tmp As New  internals.clLogingTimer(the_task_id)
-		  running_tasks.value(the_task_id) = tmp
+		Sub TaskStart(pTaskId As String)
+		  var tmp As New  internals.clLogingTimer(pTaskId)
+		  running_tasks.value(pTaskId) = tmp
 		  
-		  write_info cst_msg_task_start, the_task_id
+		  WriteInfo cstMsgTaskStart, pTaskId
 		  
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub write_error(the_message as string, ParamArray the_parameters as variant)
+		Sub WriteError(the_message as string, ParamArray the_parameters as variant)
 		  error_counter = error_counter + 1
 		  
 		  If error_counter > error_limit Then
 		    Return
 		    
 		  Elseif error_counter = error_limit Then
-		    If error_limit_is_fatal Then
-		      write_fatal_error cst_msg_reached_error_limit, error_limit
+		    If ErrorLimitIsFatal Then
+		      writeFatalError cstMsgReachedErrorLimit, error_limit
 		      
 		    Else
-		      internal_write_item cst_severitty_warning, "", cst_msg_error_msg_disabled
+		      internal_WriteItem cstSeverityWarning, "", cstMsgErrorMsgDisabled
 		      
 		    End If
 		    
 		  Else
-		    internal_write_item cst_severity_error, "", process_parameters(the_message, the_parameters)
+		    internal_WriteItem cstSeverityError, "", internal_ProcessParameters(the_message, the_parameters)
 		    
 		  End If
 		  
@@ -225,9 +238,9 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub write_fatal_error(the_message as string, ParamArray the_parameters as variant)
+		Sub WriteFatalError(the_message as string, ParamArray the_parameters as variant)
 		  
-		  internal_write_item cst_severity_fatal_error, "", process_parameters(the_message, the_parameters)
+		  internal_WriteItem cstSeverityFatalError, "", internal_ProcessParameters(the_message, the_parameters)
 		  
 		  Quit -1
 		  
@@ -235,31 +248,31 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub write_info(the_message as string, ParamArray the_parameters as Variant)
-		  internal_write_item cst_severity_information, "", process_parameters(the_message, the_parameters)
+		Sub WriteInfo(the_message as string, ParamArray the_parameters as Variant)
+		  internal_WriteItem cstSeverityInformation, "", internal_ProcessParameters(the_message, the_parameters)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub write_summary()
+		Sub WriteSummary()
 		  
-		  write_info cst_msg_status_message, warning_counter, error_counter
+		  WriteInfo cstMsgStatusMessage, warning_counter, error_counter
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub write_warning(the_message as string, ParamArray the_parameters as variant)
+		Sub WriteWarning(the_message as string, ParamArray the_parameters as variant)
 		  warning_counter = warning_counter + 1
 		  
 		  If warning_counter > warning_limit Then
 		    Return
 		    
 		  Elseif warning_counter = warning_limit Then
-		    internal_write_item cst_severitty_warning, "", cst_msg_warning_msg_disabled
+		    internal_WriteItem cstSeverityWarning, "", cstMsgWarningMsgDisabled
 		    
 		    
 		  Else
-		    internal_write_item cst_severitty_warning, "", process_parameters(the_message, the_parameters)
+		    internal_WriteItem cstSeverityWarning, "", internal_ProcessParameters(the_message, the_parameters)
 		    
 		  End If
 		  
@@ -271,6 +284,20 @@ Implements itfLogingWriter
 		Private Shared default_loging As clLoging
 	#tag EndProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mErrorLimitIsFatal_flag
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mErrorLimitIsFatal_flag = value
+			End Set
+		#tag EndSetter
+		ErrorLimitIsFatal As Boolean
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h21
 		Private error_counter As Integer
 	#tag EndProperty
@@ -279,62 +306,48 @@ Implements itfLogingWriter
 		Private error_limit As Integer
 	#tag EndProperty
 
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  return merror_limit_is_fatal_flag
-			End Get
-		#tag EndGetter
-		#tag Setter
-			Set
-			  merror_limit_is_fatal_flag = value
-			End Set
-		#tag EndSetter
-		error_limit_is_fatal As Boolean
-	#tag EndComputedProperty
-
 	#tag Property, Flags = &h21
-		Private merror_limit_is_fatal_flag As Boolean
+		Private mErrorLimitIsFatal_flag As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private msend_info_message_on_error_reset As boolean
+		Private mSendInfoMessageOnErrorReset As boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private msend_info_message_on_warning_reset As boolean
+		Private mSendInfoMessageOnWarningReset As boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		running_tasks As xojo.core.Dictionary
+		running_tasks As Dictionary
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  return msend_info_message_on_error_reset
+			  return mSendInfoMessageOnErrorReset
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  msend_info_message_on_error_reset = value
+			  mSendInfoMessageOnErrorReset = value
 			End Set
 		#tag EndSetter
-		send_info_message_on_error_reset As boolean
+		SendInfoMessageOnErrorReset As boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  return msend_info_message_on_warning_reset
+			  return mSendInfoMessageOnWarningReset
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  msend_info_message_on_warning_reset = value
+			  mSendInfoMessageOnWarningReset = value
 			End Set
 		#tag EndSetter
-		send_info_message_on_warning_reset As boolean
+		SendInfoMessageOnWarningReset As boolean
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
@@ -352,9 +365,12 @@ Implements itfLogingWriter
 
 	#tag ViewBehavior
 		#tag ViewProperty
-			Name="error_limit_is_fatal"
+			Name="ErrorLimitIsFatal"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -362,6 +378,7 @@ Implements itfLogingWriter
 			Group="ID"
 			InitialValue="-2147483648"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
@@ -369,28 +386,39 @@ Implements itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="send_info_message_on_error_reset"
+			Name="SendInfoMessageOnErrorReset"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="send_info_message_on_warning_reset"
+			Name="SendInfoMessageOnWarningReset"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
@@ -398,6 +426,7 @@ Implements itfLogingWriter
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
