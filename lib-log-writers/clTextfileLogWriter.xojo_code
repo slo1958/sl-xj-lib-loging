@@ -1,11 +1,12 @@
 #tag Class
 Protected Class clTextfileLogWriter
+Inherits clGenericLogWriter
 Implements itfLogingWriter
 	#tag Method, Flags = &h0
 		Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
 		  // Part of the itfLogingWriter interface.
 		  
-		  if not self.AcceptedSeverity.Value(MessageSeverity) then Return
+		  if not self.AcceptSeverity(MessageSeverity) then return
 		  
 		  var output As TextOutputStream
 		  
@@ -30,21 +31,14 @@ Implements itfLogingWriter
 	#tag Method, Flags = &h0
 		Sub Constructor(the_folder as folderitem = Nil, the_file_name as string, TimeStampPlaceHolder as string = "")
 		  
+		  super.Constructor
+		  
 		  field_separator = Chr(9)
 		  
 		  if the_file_name.trim.length > 0 and the_folder <> nil then 
 		    SetFilePath(the_folder, the_file_name, TimeStampPlaceHolder)
 		    
 		  End If
-		  
-		  self.AcceptedSeverity = new Dictionary
-		  
-		  Self.AcceptedSeverity.Value(cstSeverityFatalError) = true
-		  Self.AcceptedSeverity.Value(cstSeverityError) = true
-		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
-		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
-		  
-		  
 		  
 		End Sub
 	#tag EndMethod
@@ -104,19 +98,6 @@ Implements itfLogingWriter
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub UpdateSeverityFilter(SeverityLevel as string, AllowOutput as Boolean)
-		  
-		  
-		  self.AcceptedSeverity.Value(SeverityLevel) = AllowOutput
-		  
-		End Sub
-	#tag EndMethod
-
-
-	#tag Property, Flags = &h0
-		AcceptedSeverity As Dictionary
-	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected field_separator As String
