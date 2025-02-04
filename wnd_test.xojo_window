@@ -77,7 +77,7 @@ Begin Window wnd_test
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
-   Begin PushButton PushButton1
+   Begin PushButton pbStartHA1
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -213,7 +213,7 @@ Begin Window wnd_test
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
-   Begin PushButton PushButton2
+   Begin PushButton pbEndHA1
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -245,7 +245,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin PushButton PushButton3
+   Begin PushButton pbSummary
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -277,7 +277,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   96
    End
-   Begin PushButton PushButton4
+   Begin PushButton pbStartHA2
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -309,7 +309,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin PushButton PushButton5
+   Begin PushButton pbEndHA2
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -341,7 +341,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin PushButton PushButton6
+   Begin PushButton pbEndAll
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -393,7 +393,7 @@ End
 
 #tag EndWindowCode
 
-#tag Events PushButton1
+#tag Events pbStartHA1
 	#tag Event
 		Sub Action()
 		  
@@ -403,12 +403,14 @@ End
 		  
 		  tmp.WriteWarning("test2")
 		  
+		  tmp.WriteInfo("Test message  %0 at %1", 12.35, "Alpha")
+		  
 		  tmp.TaskStart "HA1"
 		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events PushButton2
+#tag Events pbEndHA1
 	#tag Event
 		Sub Action()
 		  
@@ -418,12 +420,13 @@ End
 		  
 		  tmp.WriteWarning("test2")
 		  
+		  
 		  tmp.TaskEnd "HA1"
 		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events PushButton3
+#tag Events pbSummary
 	#tag Event
 		Sub Action()
 		  
@@ -437,7 +440,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events PushButton4
+#tag Events pbStartHA2
 	#tag Event
 		Sub Action()
 		  
@@ -449,10 +452,14 @@ End
 		  
 		  tmp.TaskStart "HA2"
 		  
+		  var d as DateTime = DateTime.Now
+		  
+		  tmp.WriteInfo("Another message at %0",d)
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events PushButton5
+#tag Events pbEndHA2
 	#tag Event
 		Sub Action()
 		  
@@ -467,7 +474,7 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events PushButton6
+#tag Events pbEndAll
 	#tag Event
 		Sub Action()
 		  

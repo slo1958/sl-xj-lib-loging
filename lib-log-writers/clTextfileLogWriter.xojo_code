@@ -2,15 +2,17 @@
 Protected Class clTextfileLogWriter
 Implements itfLogingWriter
 	#tag Method, Flags = &h0
-		Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
+		Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
 		  // Part of the itfLogingWriter interface.
-		   
+		  
+		  if not self.AcceptedSeverity.Value(MessageSeverity) then Return
+		  
 		  var output As TextOutputStream
 		  
 		  Try
 		    output = TextOutputStream.Append(file_path)
 		    
-		    var tmp_line() as string = array(the_time, the_source, the_severity, the_message)
+		    var tmp_line() as string = array(MessageTime, MessageSource, MessageSeverity, MessageText)
 		    
 		    output.WriteLine(string.FromArray(tmp_line, field_separator))
 		    
@@ -26,14 +28,21 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Constructor(the_folder as folderitem = Nil, the_file_name as string, the_time_stamp_place_holder as string="")
+		Sub Constructor(the_folder as folderitem = Nil, the_file_name as string, TimeStampPlaceHolder as string = "")
 		  
 		  field_separator = Chr(9)
 		  
 		  if the_file_name.trim.length > 0 and the_folder <> nil then 
-		    SetFilePath(the_folder, the_file_name, the_time_stamp_place_holder)
+		    SetFilePath(the_folder, the_file_name, TimeStampPlaceHolder)
 		    
 		  End If
+		  
+		  self.AcceptedSeverity = new Dictionary
+		  
+		  Self.AcceptedSeverity.Value(cstSeverityFatalError) = true
+		  Self.AcceptedSeverity.Value(cstSeverityError) = true
+		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
+		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
 		  
 		  
 		  
@@ -55,16 +64,16 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SetFilePath(the_folder as folderitem, the_file_name as string, the_time_stamp_place_holder as string = "")
+		Sub SetFilePath(the_folder as folderitem, the_file_name as string, TimeStampPlaceHolder as string = "")
 		  var tmp_file_path As FolderItem
 		  
-		  If the_time_stamp_place_holder.Len > 0 Then
+		  If TimeStampPlaceHolder.Len > 0 Then
 		    var tmp_time As String  =DateTime.Now.SQLDateTime
 		    tmp_time = tmp_time.ReplaceAll("-","")
 		    tmp_time = tmp_time.ReplaceAll(":","")
 		    tmp_time = tmp_time.ReplaceAll(" ","_")
 		    
-		    tmp_file_path = the_folder.Child(the_file_name.Replace(the_time_stamp_place_holder, tmp_time))
+		    tmp_file_path = the_folder.Child(the_file_name.Replace(TimeStampPlaceHolder, tmp_time))
 		    
 		  Else
 		    tmp_file_path = the_folder.Child(the_file_name)
@@ -95,6 +104,19 @@ Implements itfLogingWriter
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub UpdateSeverityFilter(SeverityLevel as string, AllowOutput as Boolean)
+		  
+		  
+		  self.AcceptedSeverity.Value(SeverityLevel) = AllowOutput
+		  
+		End Sub
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h0
+		AcceptedSeverity As Dictionary
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected field_separator As String

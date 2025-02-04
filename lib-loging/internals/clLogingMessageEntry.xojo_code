@@ -1,10 +1,10 @@
 #tag Class
 Protected Class clLogingMessageEntry
 	#tag Method, Flags = &h0
-		Sub Constructor(the_MessageId as string, the_severity as string, the_MessageText as string)
-		  MessageId = the_MessageId
-		  MessageSeverity = the_severity
-		  MessageText = the_MessageText
+		Sub Constructor(MessageTextId as string, MessageSeverity as string, MessageTextText as string)
+		  MessageId = MessageTextId
+		  MessageSeverity = MessageSeverity
+		  MessageText = MessageTextText
 		  
 		  
 		End Sub

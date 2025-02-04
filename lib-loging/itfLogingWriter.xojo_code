@@ -1,7 +1,7 @@
 #tag Interface
 Protected Interface itfLogingWriter
 	#tag Method, Flags = &h0
-		Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
+		Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
 		  
 		End Sub
 	#tag EndMethod

@@ -2,20 +2,30 @@
 Protected Class clLoging
 Implements itfLogingWriter
 	#tag Method, Flags = &h21
-		Private Sub AddLogEntry(the_severity as string, the_time as string, the_source as string, the_message as string)
-		  // TODO: implement basic writer
+		Private Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
+		  //
+		  // Internal logWriter
+		  //
 		  
-		  System.DebugLog the_time+". " +the_severity + " " +  the_message
+		  if MessageSource.Length > 0 then
+		    
+		    System.DebugLog MessageTime+". " +MessageSeverity + " " +  MessageText + " from " + MessageSource
+		    
+		  else
+		    System.DebugLog MessageTime+". " +MessageSeverity + " " +  MessageText
+		    
+		  end if
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub AddWriter(the_writer_id as string, the_writer as itfLogingWriter)
-		  var tmp As New  internals.clLogingWriterEntry
+		Sub AddWriter(prmWriterId as string, prmWriter as itfLogingWriter)
+		  //
+		  // Add a log writer
+		  //
+		  //
+		  var tmp As New  internals.clLogingWriterEntry(prmWriterId, prmWriter)
 		  
-		  tmp.identity = the_writer_id
-		  tmp.enabled = True
-		  tmp.log_writer = the_writer
 		  writers.Append(tmp)
 		End Sub
 	#tag EndMethod
@@ -33,15 +43,35 @@ Implements itfLogingWriter
 		  SendInfoMessageOnWarningReset = False
 		  SendInfoMessageOnErrorReset = True
 		  
+		  FormatForNumberParam = cDefaultFormatNumberParam
+		  
+		  FormatForExecutionTime = cDefaultFormatExecutionTime
+		  
+		  self.AcceptedSeverity = new Dictionary
+		  
+		  Self.AcceptedSeverity.Value(cstSeverityFatalError) = true
+		  Self.AcceptedSeverity.Value(cstSeverityError) = true
+		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
+		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
+		  
+		  
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub DisableWriter(the_id as string)
-		  
+		Sub DisableWriter(WriterId as string)
+		  //
+		  // Disable a specific writers
+		  // 
+		  // Parameters:
+		  // - Identifier of the writer to be disabled
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
 		  For Each tmp As  internals.clLogingWriterEntry In writers
-		    If tmp.identity = the_id Then
+		    If tmp.identity = WriterId Then
 		      tmp.enabled = False
 		      
 		    End If
@@ -53,10 +83,18 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub EnableWriter(the_id as string)
-		  
+		Sub EnableWriter(WriterId as string)
+		  //
+		  // Enable a specific writers
+		  // 
+		  // Parameters:
+		  // - Identifier of the writer to be enabled
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
 		  For Each tmp As  internals.clLogingWriterEntry In writers
-		    If tmp.identity = the_id Then
+		    If tmp.identity = WriterId Then
 		      tmp.enabled = True
 		      
 		    End If
@@ -79,13 +117,28 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function internal_ProcessParameters(the_message as string, the_parameters() as Variant) As string
+		Private Function internal_ProcessParameters(MessageText as string, the_parameters() as Variant) As string
 		  // TODO: apply formatting
 		  
-		  var tmp_return As String = the_message
+		  var tmp_return As String = MessageText
 		  
 		  For i As Integer = 0 To the_parameters.Ubound
-		    tmp_return = tmp_return.Replace("%"+Str(i), the_parameters(i))
+		    var formattedParam as string
+		    
+		    select case the_parameters(i).Type
+		      
+		    case Variant.TypeDouble
+		      formattedParam = str(the_parameters(i).DoubleValue, self.FormatForNumberParam)
+		      
+		    case Variant.TypeDateTime
+		      formattedParam = the_parameters(i).DateTimeValue.SQLDateTime
+		      
+		    case else
+		      formattedParam = the_parameters(i)
+		      
+		    end select
+		    
+		    tmp_return = tmp_return.Replace("%"+Str(i), formattedParam)
 		    
 		  Next
 		  
@@ -95,22 +148,37 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub internal_WriteItem(the_severity as string, the_source as string, the_message as string)
-		  var tmp_time As String  = DateTime.Now.SQLDateTime
+		Private Sub internal_WriteItem(MessageSeverity as string, MessageSource as string, MessageText as string)
 		  
-		  For Each tmp As  internals.clLogingWriterEntry In writers
-		    If tmp.enabled Then
-		      tmp.log_writer.AddLogEntry(the_severity, tmp_time, the_source, the_message)
-		      
-		    End If
+		  if self.AcceptedSeverity.Value(MessageSeverity) then
 		    
-		  Next
+		    var TimeStamp As String  = DateTime.Now.SQLDateTime
+		    
+		    For Each Writer As  internals.clLogingWriterEntry In writers
+		      If Writer.enabled Then
+		        Writer.log_writer.AddLogEntry(MessageSeverity, TimeStamp, MessageSource, MessageText)
+		        
+		      End If
+		      
+		    Next
+		    
+		  end if
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub ResetErrorCounter()
-		  error_counter = 0
+		  //
+		  // Reset the error counter
+		  //
+		  // Parameters
+		  // (nothing)
+		  // 
+		  // Returns
+		  // (nothing)
+		  
+		  self.error_counter = 0
 		  
 		  If SendInfoMessageOnErrorReset Then
 		    WriteInfo cstMsgResetErrorCounter
@@ -122,7 +190,16 @@ Implements itfLogingWriter
 
 	#tag Method, Flags = &h0
 		Sub ResetWarningCounter()
-		  warning_counter = 0
+		  //
+		  // Reset the warning counter
+		  //
+		  // Parameters
+		  // (nothing)
+		  // 
+		  // Returns
+		  // (nothing)
+		  //
+		  self.warning_counter = 0
 		  
 		  If SendInfoMessageOnWarningReset Then
 		    WriteInfo cstMsgResetWarningCounter
@@ -133,42 +210,72 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SetErrorLimit(the_limit as integer)
-		  error_limit = the_limit
+		Sub SetErrorLimit(NewLimit as integer)
+		  //
+		  // Update the error limit. The error lmit is the maximum number of error messages since the last reset that
+		  // will be forwarded to the writers.
+		  //
+		  // Parameters:
+		  // - new error limit
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  self.error_limit = NewLimit
 		  
-		  WriteInfo cstMsgSetErrorLimit, error_limit
+		  WriteInfo cstMsgSetErrorLimit, NewLimit
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SetWarningLimit(the_limit as integer)
-		  warning_limit = the_limit
+		Sub SetFormatForExecutionTime(prmFormat as string)
+		  self.FormatForExecutionTime = prmFormat
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SetFormatForNumbers(prmFormat as string)
+		  self.FormatForNumberParam = prmFormat
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub SetWarningLimit(NewLimit as integer)
+		  //
+		  // Update the warning limit. The warning limit is the maximum number of warning messages since the last reset that
+		  // will be forwarded to the writers.
+		  //
+		  // Parameters:
+		  // - new warning limit
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
 		  
-		  WriteInfo cstMsgSetWarningLimit, warning_limit
+		  self.warning_limit = NewLimit
+		  
+		  WriteInfo cstMsgSetWarningLimit, self.warning_limit
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub TaskEnd(pTaskId As String)
 		  
-		  Try
-		    var tmp As internals.clLogingTimer =  internals.clLogingTimer(running_tasks.Value(pTaskId))
+		  
+		  var tmp As internals.clLogingTimer =  internals.clLogingTimer(running_tasks.Lookup(pTaskId, nil))
+		  
+		  if tmp = nil then
+		    WriteError cstMsgTaskNotFound, pTaskId, CurrentMethodName
 		    
+		  else
 		    tmp.Done
 		    
 		    running_tasks.Remove(pTaskId)
 		    
-		    WriteInfo cstMsgTaskEnd, pTaskId, Format(tmp.GetExecutionTime,"###,###.000")+" second(s)"
+		    WriteInfo cstMsgTaskEnd, pTaskId, Format(tmp.GetExecutionTime, FormatForExecutionTime)+" second(s)"
 		    
-		  Catch KeyNotFoundException
-		    WriteError cstMsgTaskNotFound, pTaskId, CurrentMethodName
-		    
-		  End 
-		  
-		  
-		  
-		  
-		  
+		  end if
 		  
 		End Sub
 	#tag EndMethod
@@ -204,6 +311,7 @@ Implements itfLogingWriter
 
 	#tag Method, Flags = &h0
 		Sub TaskStart(pTaskId As String)
+		  
 		  var tmp As New  internals.clLogingTimer(pTaskId)
 		  running_tasks.value(pTaskId) = tmp
 		  
@@ -214,13 +322,46 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteError(the_message as string, ParamArray the_parameters as variant)
-		  error_counter = error_counter + 1
+		Sub UpdateSeverityFilter(SeverityLevel as string, AllowOutput as Boolean)
+		  //
+		  // Update the severity filter on severity level
+		  // This filter is applied before forwarding messages to all writers
+		  // This is a global filter. Each individual writer may also support a filtering mechanism.
+		  //
+		  // Parameters:
+		  // - severity level 
+		  // - enabled/ disable forwarding message of the given severity to the writers
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  self.AcceptedSeverity.Value(SeverityLevel) = AllowOutput
 		  
-		  If error_counter > error_limit Then
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteError(MessageText as string, ParamArray the_parameters as variant)
+		  //
+		  // Write an error message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  // Error messages are fowarded to writers until the maximum error count is reached.
+		  // The internal counter reflects the actual number of calls to WriteError()
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  self.error_counter = self.error_counter + 1
+		  
+		  If self.error_counter > self.error_limit Then
 		    Return
 		    
-		  Elseif error_counter = error_limit Then
+		  Elseif self.error_counter =self.error_limit Then
 		    If ErrorLimitIsFatal Then
 		      writeFatalError cstMsgReachedErrorLimit, error_limit
 		      
@@ -230,7 +371,7 @@ Implements itfLogingWriter
 		    End If
 		    
 		  Else
-		    internal_WriteItem cstSeverityError, "", internal_ProcessParameters(the_message, the_parameters)
+		    internal_WriteItem cstSeverityError, "", internal_ProcessParameters(MessageText, the_parameters)
 		    
 		  End If
 		  
@@ -238,9 +379,20 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteFatalError(the_message as string, ParamArray the_parameters as variant)
+		Sub WriteFatalError(MessageText as string, ParamArray the_parameters as variant)
+		  //
+		  // Write a fatal error message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters. Processing stops after sending the message to all writers.
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
 		  
-		  internal_WriteItem cstSeverityFatalError, "", internal_ProcessParameters(the_message, the_parameters)
+		  internal_WriteItem cstSeverityFatalError, "", internal_ProcessParameters(MessageText, the_parameters)
 		  
 		  Quit -1
 		  
@@ -248,37 +400,74 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteInfo(the_message as string, ParamArray the_parameters as Variant)
-		  internal_WriteItem cstSeverityInformation, "", internal_ProcessParameters(the_message, the_parameters)
+		Sub WriteInfo(MessageText as string, ParamArray the_parameters as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  internal_WriteItem cstSeverityInformation, "", internal_ProcessParameters(MessageText, the_parameters)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub WriteSummary()
-		  
+		  //
+		  // Send the number of calls to WriteWarning and WriteError 
+		  // As an information message
+		  //
+		  // Parameters:
+		  // (nothing)
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
 		  WriteInfo cstMsgStatusMessage, warning_counter, error_counter
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteWarning(the_message as string, ParamArray the_parameters as variant)
-		  warning_counter = warning_counter + 1
+		Sub WriteWarning(MessageText as string, ParamArray the_parameters as variant)
+		  //
+		  // Write an warning message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  // Warning messages are fowarded to writers until the maximum warning count is reached.
+		  // The internal counter reflects the actual number of calls to WriteWarning()
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  self.warning_counter = self.warning_counter + 1
 		  
-		  If warning_counter > warning_limit Then
+		  If self.warning_counter > self.warning_limit Then
 		    Return
 		    
-		  Elseif warning_counter = warning_limit Then
+		  Elseif self.warning_counter = self.warning_limit Then
 		    internal_WriteItem cstSeverityWarning, "", cstMsgWarningMsgDisabled
 		    
 		    
 		  Else
-		    internal_WriteItem cstSeverityWarning, "", internal_ProcessParameters(the_message, the_parameters)
+		    internal_WriteItem cstSeverityWarning, "", internal_ProcessParameters(MessageText, the_parameters)
 		    
 		  End If
 		  
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		AcceptedSeverity As Dictionary
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private Shared default_loging As clLoging
@@ -304,6 +493,14 @@ Implements itfLogingWriter
 
 	#tag Property, Flags = &h21
 		Private error_limit As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private FormatForExecutionTime As string
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private FormatForNumberParam As string
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
