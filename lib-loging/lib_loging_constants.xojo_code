@@ -53,6 +53,9 @@ Protected Module lib_loging_constants
 	#tag Constant, Name = cDefaultFormatNumberParam, Type = String, Dynamic = False, Default = \"-####0.000##", Scope = Public
 	#tag EndConstant
 
+	#tag Constant, Name = cstInternalSource, Type = String, Dynamic = False, Default = \"Internal", Scope = Public
+	#tag EndConstant
+
 	#tag Constant, Name = cstInternalWriterId, Type = String, Dynamic = False, Default = \"DEFAULT", Scope = Public
 	#tag EndConstant
 

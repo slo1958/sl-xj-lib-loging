@@ -481,7 +481,7 @@ End
 	#tag Event
 		Sub Open()
 		  // attach three logwriters updating a listbox
-		  var my_loging As clLoging = clloging.get_default_loging_support
+		  var my_loging As clLoging = clloging.GetDefaultLogingSupport
 		  my_loging.AddWriter "LB1", New clListBoxLogWriter(ListBox1)
 		  my_loging.AddWriter "LB2", New clListBoxLogWriter(ListBox4)
 		  my_loging.AddWriter "LB3", New clListBoxLogWriter(ListBox5)
@@ -498,13 +498,13 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
-		  tmp.WriteInfo("test1")
+		  tmp.WriteInfo("Demo","test1")
 		  
-		  tmp.WriteWarning("test2")
+		  tmp.WriteWarning("Demo","test2")
 		  
-		  tmp.WriteInfo("Test message  %0 at %1", 12.35, "Alpha")
+		  tmp.WriteInfo("Demo","Test message  %0 at %1", 12.35, "Alpha")
 		  
 		  tmp.TaskStart "HA1"
 		  
@@ -515,11 +515,11 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
-		  tmp.WriteError("test1")
+		  tmp.WriteError("Demo", "test1")
 		  
-		  tmp.WriteWarning("test2")
+		  tmp.WriteWarning("Demo", "test2")
 		  
 		  
 		  tmp.TaskEnd "HA1"
@@ -531,7 +531,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
 		  tmp.WriteSummary
 		  tmp.MethodStatsAll
@@ -546,17 +546,17 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
-		  tmp.WriteInfo("test1")
+		  tmp.WriteInfo("Demo","test1")
 		  
-		  tmp.WriteWarning("test2")
+		  tmp.WriteWarning("Demo","test2")
 		  
 		  tmp.TaskStart "HA2"
 		  
 		  var d as DateTime = DateTime.Now
 		  
-		  tmp.WriteInfo("Another message at %0",d)
+		  tmp.WriteInfo("Demo","Another message at %0",d)
 		  
 		End Sub
 	#tag EndEvent
@@ -565,11 +565,11 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
-		  tmp.WriteError("test1")
+		  tmp.WriteError("Demo", "test1")
 		  
-		  tmp.WriteWarning("test2")
+		  tmp.WriteWarning("Demo", "test2")
 		  
 		  tmp.TaskEnd "HA2"
 		  
@@ -580,7 +580,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
 		  tmp.TaskEndAll
 		  
@@ -592,7 +592,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
 		  tmp.EnterMethod("Alpha")
 		  timer3.Period = 100*Rnd
@@ -606,7 +606,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
 		  tmp.EnterMethod("Beta")
 		  timer4.Period = 300*Rnd
@@ -652,7 +652,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
 		  tmp.ExitMethod("Alpha")
 		  timer3.RunMode = timer.RunModes.Off
@@ -664,7 +664,7 @@ End
 #tag Events Timer4
 	#tag Event
 		Sub Action()
-		  var tmp As clLoging = clloging.get_default_loging_support
+		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
 		  tmp.ExitMethod("Beta")
 		  timer4.RunMode = timer.RunModes.Off

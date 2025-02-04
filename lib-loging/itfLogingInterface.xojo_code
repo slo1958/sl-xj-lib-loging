@@ -1,61 +1,40 @@
-#tag Class
-Protected Class clMethodTimer
+#tag Interface
+Protected Interface itfLogingInterface
 	#tag Method, Flags = &h0
-		Sub Constructor(prmName as string)
-		  
-		  self.MethodName = prmName
+		Sub WriteError(MessageSource as string, MessageText as string, ParamArray the_parameters as variant)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub EnterMethod()
-		  
-		  timers.Add(new clLogingTaskTimer(self.MethodName))
+		Sub WriteFatalError(MessageSource as string, MessageText as string, ParamArray the_parameters as variant)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ExitMethod()
+		Sub WriteInfo(MessageSource as string, MessageText as string, ParamArray the_parameters as Variant)
 		  
-		  if timers.Count = 0 then return
-		  
-		  timers(timers.LastIndex).Done
-		  
-		  return
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function MethodStats() As pair
+		Sub WriteStatistics(MessageText as string, ParamArray the_parameters as Variant)
 		  
-		  var count as integer
-		  var totexecution as Double
-		  
-		  for each entry as clLogingTaskTimer in self.Timers
-		    if entry.end_time = nil then 
-		    else
-		      count = count + 1
-		      totexecution = totexecution + entry.GetExecutionTime
-		    end if
-		    
-		  next
-		  
-		  return count:totexecution
-		  
-		  
-		End Function
+		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub WriteSummary()
+		  
+		End Sub
+	#tag EndMethod
 
-	#tag Property, Flags = &h0
-		MethodName As string
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		Timers() As clLogingTaskTimer
-	#tag EndProperty
+	#tag Method, Flags = &h0
+		Sub WriteWarning(MessageSource as string, MessageText as string, ParamArray the_parameters as variant)
+		  
+		End Sub
+	#tag EndMethod
 
 
 	#tag ViewBehavior
@@ -99,14 +78,6 @@ Protected Class clMethodTimer
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Timers()"
-			Visible=false
-			Group="Behavior"
-			InitialValue=""
-			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
 	#tag EndViewBehavior
-End Class
-#tag EndClass
+End Interface
+#tag EndInterface
