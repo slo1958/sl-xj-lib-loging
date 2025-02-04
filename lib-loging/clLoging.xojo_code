@@ -24,6 +24,16 @@ Implements itfLogingWriter
 		  // Add a log writer
 		  //
 		  //
+		  
+		  For Each tmp As  internals.clLogingWriterEntry In writers
+		    If tmp.identity = prmWriterId Then
+		      WriteError cstMsgWriterAlreadyDefined, prmWriterId
+		      return
+		      
+		    End If
+		    
+		  Next
+		  
 		  var tmp As New  internals.clLogingWriterEntry(prmWriterId, prmWriter)
 		  
 		  writers.Append(tmp)
@@ -70,7 +80,7 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub DisableWriter(WriterId as string)
+		Sub DisableWriter(prmWriterId as string = cstInternalWriterId)
 		  //
 		  // Disable a specific writers
 		  // 
@@ -81,19 +91,21 @@ Implements itfLogingWriter
 		  // (nothing)
 		  //
 		  For Each tmp As  internals.clLogingWriterEntry In writers
-		    If tmp.identity = WriterId Then
+		    If tmp.identity = prmWriterId Then
 		      tmp.enabled = False
+		      return
 		      
 		    End If
 		    
 		  Next
 		  
+		  WriteError cstMsgWriterNotFound, prmWriterId
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub EnableWriter(WriterId as string)
+		Sub EnableWriter(prmWriterId as string = cstInternalWriterId)
 		  //
 		  // Enable a specific writers
 		  // 
@@ -104,13 +116,16 @@ Implements itfLogingWriter
 		  // (nothing)
 		  //
 		  For Each tmp As  internals.clLogingWriterEntry In writers
-		    If tmp.identity = WriterId Then
+		    If tmp.identity = prmWriterId Then
 		      tmp.enabled = True
+		      return
 		      
 		    End If
 		    
 		  Next
 		  
+		  
+		  WriteError cstMsgWriterNotFound, prmWriterId
 		End Sub
 	#tag EndMethod
 

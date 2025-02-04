@@ -10,7 +10,12 @@ Protected Module lib_loging_constants
 		- add filter to enable/disable each level
 		- add a limit counter for errors and warning
 		- add support to measure execution time of different tasks
+		- add support to track execution of methods
 		
+		
+		The class provides a default clLoging instance and a default logWriter, sending the output to debuglog.
+		
+		The default logWriter can be enabled and disabled by calling EnableWriter() and DisableWriter() without parameters
 		
 	#tag EndNote
 
@@ -85,6 +90,12 @@ Protected Module lib_loging_constants
 	#tag EndConstant
 
 	#tag Constant, Name = cstMsgWarningMsgDisabled, Type = String, Dynamic = False, Default = \"Warning messages disabled.", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = cstMsgWriterAlreadyDefined, Type = String, Dynamic = False, Default = \"WriterId %0 already in use.", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = cstMsgWriterNotFound, Type = String, Dynamic = False, Default = \"WriterId %0 not found.", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = cstSeverityError, Type = String, Dynamic = False, Default = \"ERR", Scope = Public
