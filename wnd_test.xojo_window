@@ -8,7 +8,7 @@ Begin Window wnd_test
    FullScreen      =   False
    FullScreenButton=   False
    HasBackColor    =   False
-   Height          =   534
+   Height          =   580
    ImplicitInstance=   True
    LiveResize      =   "True"
    MacProcID       =   0
@@ -373,6 +373,107 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   96
    End
+   Begin Timer Timer1
+      Enabled         =   True
+      Index           =   -2147483648
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   1000
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
+   Begin Timer Timer2
+      Enabled         =   True
+      Index           =   -2147483648
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   1000
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
+   Begin CheckBox ckTimerTask1
+      AutoDeactivate  =   True
+      Bold            =   False
+      Caption         =   "Repeat task 1"
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   30
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      State           =   0
+      TabIndex        =   10
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0.0
+      TextUnit        =   0
+      Top             =   540
+      Transparent     =   False
+      Underline       =   False
+      Visible         =   True
+      Width           =   120
+   End
+   Begin CheckBox ckTimerTask2
+      AutoDeactivate  =   True
+      Bold            =   False
+      Caption         =   "Repeat task 2"
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   False
+      Left            =   215
+      LockBottom      =   False
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   False
+      LockTop         =   True
+      Scope           =   0
+      State           =   0
+      TabIndex        =   11
+      TabPanelIndex   =   0
+      TabStop         =   True
+      TextFont        =   "System"
+      TextSize        =   0.0
+      TextUnit        =   0
+      Top             =   540
+      Transparent     =   False
+      Underline       =   False
+      Value           =   False
+      Visible         =   True
+      Width           =   120
+   End
+   Begin Timer Timer3
+      Enabled         =   True
+      Index           =   -2147483648
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   1000
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
+   Begin Timer Timer4
+      Enabled         =   True
+      Index           =   -2147483648
+      LockedInPosition=   False
+      Mode            =   0
+      Period          =   1000
+      Scope           =   0
+      TabPanelIndex   =   0
+   End
 End
 #tag EndWindow
 
@@ -433,6 +534,7 @@ End
 		  var tmp As clLoging = clloging.get_default_loging_support
 		  
 		  tmp.WriteSummary
+		  tmp.MethodStatsAll
 		  
 		  tmp.TaskEndAll
 		  
@@ -482,6 +584,90 @@ End
 		  
 		  tmp.TaskEndAll
 		  
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Timer1
+	#tag Event
+		Sub Action()
+		  
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.EnterMethod("Alpha")
+		  timer3.Period = 100*Rnd
+		  timer3.RunMode = timer.RunModes.Single
+		  
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Timer2
+	#tag Event
+		Sub Action()
+		  
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.EnterMethod("Beta")
+		  timer4.Period = 300*Rnd
+		  timer4.RunMode = timer.RunModes.Single
+		  
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events ckTimerTask1
+	#tag Event
+		Sub Action()
+		  
+		  
+		  if me.Value then
+		    timer1.RunMode = timer.RunModes.Multiple
+		    
+		  else
+		    timer1.RunMode = timer.RunModes.Off
+		    
+		  end if
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events ckTimerTask2
+	#tag Event
+		Sub Action()
+		  
+		  
+		  if me.Value then
+		    timer2.RunMode = timer.RunModes.Multiple
+		    
+		  else
+		    timer2.RunMode = timer.RunModes.Off
+		    
+		  end if
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Timer3
+	#tag Event
+		Sub Action()
+		  
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.ExitMethod("Alpha")
+		  timer3.RunMode = timer.RunModes.Off
+		  
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Timer4
+	#tag Event
+		Sub Action()
+		  var tmp As clLoging = clloging.get_default_loging_support
+		  
+		  tmp.ExitMethod("Beta")
+		  timer4.RunMode = timer.RunModes.Off
 		  
 		End Sub
 	#tag EndEvent

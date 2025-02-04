@@ -1,5 +1,5 @@
 #tag Class
-Protected Class clLogingTimer
+Protected Class clLogingTaskTimer
 	#tag Method, Flags = &h0
 		Sub Constructor(pTaskId as string)
 		  identifier = pTaskId

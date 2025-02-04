@@ -34,7 +34,7 @@ Implements itfLogingWriter
 		  Self.AcceptedSeverity.Value(cstSeverityError) = true
 		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
 		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
-		  
+		  self.AcceptedSeverity.Value(cstSeverityStatistics) = True
 		  
 		  
 		  

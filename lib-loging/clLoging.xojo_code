@@ -31,9 +31,18 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub ClearAllMethods()
+		  self.TrackedMethods = new Dictionary
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor()
 		  
-		  running_tasks = new Dictionary
+		  RunningTasks = new Dictionary
+		  self.TrackedMethods = new Dictionary
+		  
 		  AddWriter cstInternalWriterId, Self
 		  
 		  error_limit = 50
@@ -53,8 +62,9 @@ Implements itfLogingWriter
 		  Self.AcceptedSeverity.Value(cstSeverityError) = true
 		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
 		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
+		  self.AcceptedSeverity.Value(cstSeverityStatistics) = True
 		  
-		  
+		  Return
 		  
 		End Sub
 	#tag EndMethod
@@ -100,6 +110,34 @@ Implements itfLogingWriter
 		    End If
 		    
 		  Next
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub EnterMethod(MethodName as string)
+		  
+		  var methodInfo as internals.clMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
+		  
+		  if methodInfo = nil then 
+		    methodInfo = new  internals.clMethodTimer(MethodName)
+		    self.TrackedMethods.Value(MethodName) = methodInfo
+		    
+		  end if
+		  
+		  methodInfo.EnterMethod
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ExitMethod(MethodName as string)
+		  
+		  var methodInfo as internals.clMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
+		  
+		  if methodInfo <> nil then methodInfo.ExitMethod
+		  
+		  
 		  
 		End Sub
 	#tag EndMethod
@@ -163,6 +201,40 @@ Implements itfLogingWriter
 		    Next
 		    
 		  end if
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub MethodStats(MethodName as string)
+		  
+		  var methodInfo as internals.clMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
+		  
+		  if methodInfo <> nil then  
+		    var p as pair = methodInfo.MethodStats
+		    
+		    var count as integer = p.left
+		    var tottime as double = p.Right
+		    var itertime as double = if(count <= 0, 0, tottime / count)
+		    
+		    WriteStatistics cstMsgMethodStats, MethodName, count, format(tottime, FormatForExecutionTime) , format(itertime, FormatForExecutionTime)
+		    
+		  else
+		    
+		  end if
+		  
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub MethodStatsAll()
+		  
+		  for each method as string in self.TrackedMethods.keys
+		    self.MethodStats(method)
+		    
+		  next
 		  
 		End Sub
 	#tag EndMethod
@@ -263,7 +335,7 @@ Implements itfLogingWriter
 		Sub TaskEnd(pTaskId As String)
 		  
 		  
-		  var tmp As internals.clLogingTimer =  internals.clLogingTimer(running_tasks.Lookup(pTaskId, nil))
+		  var tmp As internals.clLogingTaskTimer =  internals.clLogingTaskTimer(RunningTasks.Lookup(pTaskId, nil))
 		  
 		  if tmp = nil then
 		    WriteError cstMsgTaskNotFound, pTaskId, CurrentMethodName
@@ -271,9 +343,9 @@ Implements itfLogingWriter
 		  else
 		    tmp.Done
 		    
-		    running_tasks.Remove(pTaskId)
+		    RunningTasks.Remove(pTaskId)
 		    
-		    WriteInfo cstMsgTaskEnd, pTaskId, Format(tmp.GetExecutionTime, FormatForExecutionTime)+" second(s)"
+		    WriteInfo cstMsgTaskEnd, pTaskId, Format(tmp.GetExecutionTime, FormatForExecutionTime) 
 		    
 		  end if
 		  
@@ -295,7 +367,7 @@ Implements itfLogingWriter
 		  var key_store() As String
 		  
 		  // cannot alter a Dictionary while iterating, so take a copy of the keys
-		  For Each item As  string In running_tasks.keys
+		  For Each item As  string In RunningTasks.keys
 		    key_store.Append(item)
 		    
 		  Next
@@ -312,8 +384,8 @@ Implements itfLogingWriter
 	#tag Method, Flags = &h0
 		Sub TaskStart(pTaskId As String)
 		  
-		  var tmp As New  internals.clLogingTimer(pTaskId)
-		  running_tasks.value(pTaskId) = tmp
+		  var tmp As New  internals.clLogingTaskTimer(pTaskId)
+		  RunningTasks.value(pTaskId) = tmp
 		  
 		  WriteInfo cstMsgTaskStart, pTaskId
 		  
@@ -417,6 +489,23 @@ Implements itfLogingWriter
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub WriteStatistics(MessageText as string, ParamArray the_parameters as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  internal_WriteItem cstSeverityStatistics, "", internal_ProcessParameters(MessageText, the_parameters)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub WriteSummary()
 		  //
 		  // Send the number of calls to WriteWarning and WriteError 
@@ -515,8 +604,8 @@ Implements itfLogingWriter
 		Private mSendInfoMessageOnWarningReset As boolean
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		running_tasks As Dictionary
+	#tag Property, Flags = &h21
+		Private RunningTasks As Dictionary
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -546,6 +635,10 @@ Implements itfLogingWriter
 		#tag EndSetter
 		SendInfoMessageOnWarningReset As boolean
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private TrackedMethods As Dictionary
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private warning_counter As Integer

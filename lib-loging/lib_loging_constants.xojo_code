@@ -1,5 +1,47 @@
 #tag Module
 Protected Module lib_loging_constants
+	#tag Note, Name = Description
+		
+		Support for message logging.
+		
+		Supports:
+		- four levels of severity (Information, Warning, Error, Fatal error)
+		- supports multiple log writer, a logwriter is expected to support the itfLogingWriter interface
+		- add filter to enable/disable each level
+		- add a limit counter for errors and warning
+		- add support to measure execution time of different tasks
+		
+		
+	#tag EndNote
+
+	#tag Note, Name = License
+		MIT License
+		
+		sl-xj-lib-loger Library
+		Copyright (c) 2021-2025 Serge Louvet
+		
+		Permission is hereby granted, free of charge, to any person obtaining a copy
+		of this software and associated documentation files (the "Software"), to deal
+		in the Software without restriction, including without limitation the rights
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the Software is
+		furnished to do so, subject to the following conditions:
+		
+		The above copyright notice and this permission notice shall be included in all
+		copies or substantial portions of the Software.
+		
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+		SOFTWARE.
+		
+		
+	#tag EndNote
+
+
 	#tag Constant, Name = cDefaultFormatExecutionTime, Type = String, Dynamic = False, Default = \"###\x2C###.000", Scope = Public
 	#tag EndConstant
 
@@ -10,6 +52,9 @@ Protected Module lib_loging_constants
 	#tag EndConstant
 
 	#tag Constant, Name = cstMsgErrorMsgDisabled, Type = String, Dynamic = False, Default = \"Error messages disabled.", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = cstMsgMethodStats, Type = String, Dynamic = False, Default = \"Method %0 called %1 time(s)\x2C total execution time %2 second(s)\x2C average %3 second(s).", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = cstMsgReachedErrorLimit, Type = String, Dynamic = False, Default = \"Reached maximum number of errors (set to %0)", Scope = Public
@@ -30,7 +75,7 @@ Protected Module lib_loging_constants
 	#tag Constant, Name = cstMsgStatusMessage, Type = String, Dynamic = False, Default = \"Found %0 warning(s)\x2C %1 error(s).", Scope = Public
 	#tag EndConstant
 
-	#tag Constant, Name = cstMsgTaskEnd, Type = String, Dynamic = False, Default = \"Ending task %0 after %1.", Scope = Public
+	#tag Constant, Name = cstMsgTaskEnd, Type = String, Dynamic = False, Default = \"Ending task %0 after %1 second(s).", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = cstMsgTaskNotFound, Type = String, Dynamic = False, Default = \"Cannot find task %0\x2C called from %1.", Scope = Public
@@ -49,6 +94,9 @@ Protected Module lib_loging_constants
 	#tag EndConstant
 
 	#tag Constant, Name = cstSeverityInformation, Type = String, Dynamic = False, Default = \"INF", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = cstSeverityStatistics, Type = String, Dynamic = False, Default = \"STS", Scope = Public
 	#tag EndConstant
 
 	#tag Constant, Name = cstSeverityWarning, Type = String, Dynamic = False, Default = \"WNG", Scope = Public
