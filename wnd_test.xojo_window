@@ -420,6 +420,7 @@ Begin Window wnd_test
       Top             =   540
       Transparent     =   False
       Underline       =   False
+      Value           =   False
       Visible         =   True
       Width           =   120
    End
@@ -506,7 +507,7 @@ End
 		  
 		  tmp.WriteInfo("Demo","Test message  %0 at %1", 12.35, "Alpha")
 		  
-		  tmp.TaskStart "HA1"
+		  tmp.StartTask "HA1"
 		  
 		End Sub
 	#tag EndEvent
@@ -522,7 +523,7 @@ End
 		  tmp.WriteWarning("Demo", "test2")
 		  
 		  
-		  tmp.TaskEnd "HA1"
+		  tmp.EndTask "HA1"
 		  
 		End Sub
 	#tag EndEvent
@@ -536,7 +537,7 @@ End
 		  tmp.WriteSummary
 		  tmp.MethodStatsAll
 		  
-		  tmp.TaskEndAll
+		  tmp.EndTaskAll
 		  
 		  
 		End Sub
@@ -552,7 +553,7 @@ End
 		  
 		  tmp.WriteWarning("Demo","test2")
 		  
-		  tmp.TaskStart "HA2"
+		  tmp.StartTask "HA2"
 		  
 		  var d as DateTime = DateTime.Now
 		  
@@ -571,7 +572,7 @@ End
 		  
 		  tmp.WriteWarning("Demo", "test2")
 		  
-		  tmp.TaskEnd "HA2"
+		  tmp.EndTask "HA2"
 		  
 		End Sub
 	#tag EndEvent
@@ -582,7 +583,7 @@ End
 		  
 		  var tmp As clLoging = clloging.GetDefaultLogingSupport
 		  
-		  tmp.TaskEndAll
+		  tmp.EndTaskAll
 		  
 		  
 		End Sub
