@@ -91,6 +91,7 @@ Implements itfLogWriter
 		  Self.AcceptedSeverity.Value(cstSeverityFatalError) = true
 		  Self.AcceptedSeverity.Value(cstSeverityError) = true
 		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
+		  self.AcceptedSeverity.Value(cstSeverityMessage) = True
 		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
 		  self.AcceptedSeverity.Value(cstSeverityStatistics) = True
 		  
@@ -684,6 +685,48 @@ Implements itfLogWriter
 
 	#tag Method, Flags = &h0
 		Sub WriteInfo(MessageSource as string, MessageText as string, ParamArray MessageParameters as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  internal_WriteMessage MessageSource, cstSeverityInformation, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteMessage(MessageSource as string, MessageText as string, MessageParameters() as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  internal_WriteMessage MessageSource, cstSeverityInformation, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteMessage(MessageSource as string, MessageText as string, ParamArray MessageParameters as Variant)
 		  //
 		  // Write an information message
 		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters

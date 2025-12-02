@@ -34,7 +34,7 @@ Protected Class clLogingMethodTimer
 		  var totexecution as Double
 		  
 		  for each entry as clLogingTaskTimer in self.Timers
-		    if entry.end_time = nil then 
+		    if entry.Completed then 
 		    else
 		      count = count + 1
 		      totexecution = totexecution + entry.GetExecutionTime
@@ -100,11 +100,11 @@ Protected Class clLogingMethodTimer
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Timers()"
+			Name="MethodName"
 			Visible=false
 			Group="Behavior"
 			InitialValue=""
-			Type="Integer"
+			Type="string"
 			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
