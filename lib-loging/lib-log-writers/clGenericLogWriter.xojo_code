@@ -1,6 +1,6 @@
 #tag Class
 Protected Class clGenericLogWriter
-Implements itfLogingWriter
+Implements itfLogWriter
 	#tag Method, Flags = &h1
 		Protected Function AcceptSeverity(MessageSeverity as string) As Boolean
 		  // 
@@ -22,12 +22,22 @@ Implements itfLogingWriter
 		  // Part of the itfLogingWriter interface.
 		  
 		  // Should be implemented in child classes
+		  
+		  
+		  #Pragma unused MessageSeverity
+		  #Pragma unused MessageTime
+		  #Pragma unused MessageSource
+		  #Pragma unused MessageText
+		  
+		  Raise New RuntimeException("Unimplemented method " + CurrentMethodName)
+		  
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Constructor()
-		   
+		  
 		  self.AcceptedSeverity = new Dictionary
 		  
 		  Self.AcceptedSeverity.Value(cstSeverityFatalError) = true
@@ -35,7 +45,6 @@ Implements itfLogingWriter
 		  Self.AcceptedSeverity.Value(cstSeverityWarning) = true 
 		  self.AcceptedSeverity.Value(cstSeverityInformation) = true
 		  self.AcceptedSeverity.Value(cstSeverityStatistics) = True
-		  
 		  
 		  
 		End Sub

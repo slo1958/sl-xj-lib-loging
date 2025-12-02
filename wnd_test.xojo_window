@@ -1,31 +1,31 @@
-#tag Window
-Begin Window wnd_test
-   BackColor       =   &cFFFFFF00
+#tag DesktopWindow
+Begin DesktopWindow wnd_test
    Backdrop        =   0
-   CloseButton     =   True
+   BackgroundColor =   &cFFFFFF00
    Composite       =   False
-   Frame           =   0
+   DefaultLocation =   0
    FullScreen      =   False
-   FullScreenButton=   False
-   HasBackColor    =   False
+   HasBackgroundColor=   False
+   HasCloseButton  =   True
+   HasFullScreenButton=   False
+   HasMaximizeButton=   True
+   HasMinimizeButton=   True
+   HasTitleBar     =   True
    Height          =   580
    ImplicitInstance=   True
-   LiveResize      =   "True"
    MacProcID       =   0
-   MaxHeight       =   32000
-   MaximizeButton  =   True
-   MaxWidth        =   32000
+   MaximumHeight   =   32000
+   MaximumWidth    =   32000
    MenuBar         =   425357311
    MenuBarVisible  =   True
-   MinHeight       =   64
-   MinimizeButton  =   True
-   MinWidth        =   64
-   Placement       =   0
+   MinimumHeight   =   64
+   MinimumWidth    =   64
    Resizeable      =   True
    Title           =   "Untitled"
+   Type            =   0
    Visible         =   True
    Width           =   600
-   Begin Listbox Listbox1
+   Begin DesktopListBox Listbox1
       AutoDeactivate  =   True
       AutoHideScrollbars=   True
       Bold            =   False
@@ -33,8 +33,6 @@ Begin Window wnd_test
       ColumnCount     =   1
       ColumnsResizable=   False
       ColumnWidths    =   ""
-      DataField       =   ""
-      DataSource      =   ""
       DefaultRowHeight=   -1
       Enabled         =   True
       EnableDrag      =   False
@@ -77,7 +75,7 @@ Begin Window wnd_test
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
-   Begin PushButton pbStartHA1
+   Begin DesktopButton pbStartHA1
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -109,7 +107,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin Listbox Listbox5
+   Begin DesktopListBox Listbox5
       AutoDeactivate  =   True
       AutoHideScrollbars=   True
       Bold            =   False
@@ -117,8 +115,6 @@ Begin Window wnd_test
       ColumnCount     =   3
       ColumnsResizable=   False
       ColumnWidths    =   ""
-      DataField       =   ""
-      DataSource      =   ""
       DefaultRowHeight=   -1
       Enabled         =   True
       EnableDrag      =   False
@@ -161,7 +157,7 @@ Begin Window wnd_test
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
-   Begin Listbox Listbox4
+   Begin DesktopListBox Listbox4
       AutoDeactivate  =   True
       AutoHideScrollbars=   True
       Bold            =   False
@@ -169,8 +165,6 @@ Begin Window wnd_test
       ColumnCount     =   2
       ColumnsResizable=   False
       ColumnWidths    =   ""
-      DataField       =   ""
-      DataSource      =   ""
       DefaultRowHeight=   -1
       Enabled         =   True
       EnableDrag      =   False
@@ -213,7 +207,7 @@ Begin Window wnd_test
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
-   Begin PushButton pbEndHA1
+   Begin DesktopButton pbEndHA1
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -245,7 +239,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin PushButton pbSummary
+   Begin DesktopButton pbSummary
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -277,7 +271,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   96
    End
-   Begin PushButton pbStartHA2
+   Begin DesktopButton pbStartHA2
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -309,7 +303,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin PushButton pbEndHA2
+   Begin DesktopButton pbEndHA2
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -341,7 +335,7 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   100
    End
-   Begin PushButton pbEndAll
+   Begin DesktopButton pbEndAll
       AutoDeactivate  =   True
       Bold            =   False
       ButtonStyle     =   0
@@ -391,12 +385,10 @@ Begin Window wnd_test
       Scope           =   0
       TabPanelIndex   =   0
    End
-   Begin CheckBox ckTimerTask1
+   Begin DesktopCheckBox ckTimerTask1
       AutoDeactivate  =   True
       Bold            =   False
       Caption         =   "Repeat task 1"
-      DataField       =   ""
-      DataSource      =   ""
       Enabled         =   True
       Height          =   20
       HelpTag         =   ""
@@ -424,12 +416,10 @@ Begin Window wnd_test
       Visible         =   True
       Width           =   120
    End
-   Begin CheckBox ckTimerTask2
+   Begin DesktopCheckBox ckTimerTask2
       AutoDeactivate  =   True
       Bold            =   False
       Caption         =   "Repeat task 2"
-      DataField       =   ""
-      DataSource      =   ""
       Enabled         =   True
       Height          =   20
       HelpTag         =   ""
@@ -476,14 +466,15 @@ Begin Window wnd_test
       TabPanelIndex   =   0
    End
 End
-#tag EndWindow
+#tag EndDesktopWindow
 
 #tag WindowCode
 	#tag Event
-		Sub Open()
+		Sub Opening()
 		  // attach three logwriters updating a listbox
-		  var my_loging As clLoging = clloging.GetDefaultLogingSupport
-		  my_loging.AddWriter "LB1", New clListBoxLogWriter(ListBox1)
+		  var my_loging As clLogManager = clLogManager.GetDefaultLogingSupport
+		   
+		  my_loging.AddWriter ("LB1", New clListBoxLogWriter(ListBox1))
 		  my_loging.AddWriter "LB2", New clListBoxLogWriter(ListBox4)
 		  my_loging.AddWriter "LB3", New clListBoxLogWriter(ListBox5)
 		  
@@ -497,9 +488,9 @@ End
 
 #tag Events pbStartHA1
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.WriteInfo("Demo","test1")
 		  
@@ -514,9 +505,9 @@ End
 #tag EndEvents
 #tag Events pbEndHA1
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.WriteError("Demo", "test1")
 		  
@@ -530,9 +521,9 @@ End
 #tag EndEvents
 #tag Events pbSummary
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.WriteSummary
 		  tmp.MethodStatsAll
@@ -545,9 +536,9 @@ End
 #tag EndEvents
 #tag Events pbStartHA2
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.WriteInfo("Demo","test1")
 		  
@@ -564,9 +555,9 @@ End
 #tag EndEvents
 #tag Events pbEndHA2
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.WriteError("Demo", "test1")
 		  
@@ -579,9 +570,9 @@ End
 #tag EndEvents
 #tag Events pbEndAll
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.EndTaskAll
 		  
@@ -593,7 +584,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.EnterMethod("Alpha")
 		  timer3.Period = 100*Rnd
@@ -607,7 +598,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.EnterMethod("Beta")
 		  timer4.Period = 300*Rnd
@@ -619,7 +610,7 @@ End
 #tag EndEvents
 #tag Events ckTimerTask1
 	#tag Event
-		Sub Action()
+		Sub ValueChanged()
 		  
 		  
 		  if me.Value then
@@ -635,7 +626,7 @@ End
 #tag EndEvents
 #tag Events ckTimerTask2
 	#tag Event
-		Sub Action()
+		Sub ValueChanged()
 		  
 		  
 		  if me.Value then
@@ -653,7 +644,7 @@ End
 	#tag Event
 		Sub Action()
 		  
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.ExitMethod("Alpha")
 		  timer3.RunMode = timer.RunModes.Off
@@ -665,7 +656,7 @@ End
 #tag Events Timer4
 	#tag Event
 		Sub Action()
-		  var tmp As clLoging = clloging.GetDefaultLogingSupport
+		  var tmp As clLogManager = clLogManager.GetDefaultLogingSupport
 		  
 		  tmp.ExitMethod("Beta")
 		  timer4.RunMode = timer.RunModes.Off

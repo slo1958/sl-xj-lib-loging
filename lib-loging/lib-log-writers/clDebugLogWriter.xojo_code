@@ -1,7 +1,7 @@
 #tag Class
 Protected Class clDebugLogWriter
 Inherits clGenericLogWriter
-Implements itfLogingWriter
+Implements itfLogWriter
 	#tag Method, Flags = &h0
 		Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
 		  // Part of the itfLogingWriter interface.
@@ -16,7 +16,7 @@ Implements itfLogingWriter
 		    System.DebugLog MessageTime+". " +MessageSeverity + " " +  MessageText
 		    
 		  end if
-		   
+		  
 		  
 		End Sub
 	#tag EndMethod
