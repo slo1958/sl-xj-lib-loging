@@ -1,5 +1,5 @@
 #tag Module
-Protected Module lib_loging_constants
+Protected Module mdLogManagerConstants
 	#tag Note, Name = Description
 		
 		Support for message logging.

@@ -1,6 +1,6 @@
 #tag Class
-Protected Class clLoging
-Implements itfLogingWriter,itfLogingInterface
+Protected Class clLogManager
+Implements itfLogWriter
 	#tag Method, Flags = &h21
 		Private Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
 		  //
@@ -19,7 +19,7 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub AddWriter(prmWriterId as string, prmWriter as itfLogingWriter)
+		Sub AddWriter(prmWriterId as string, prmWriter as itfLogWriter)
 		  //
 		  // Add a log writer
 		  //
@@ -31,7 +31,7 @@ Implements itfLogingWriter,itfLogingInterface
 		  // (nothing)
 		  //
 		  
-		  For Each tmp As  internals.clLogingWriterEntry In writers
+		  For Each tmp As  internals.clLogWriterEntry In writers
 		    If tmp.identity = prmWriterId Then
 		      WriteError cstMsgWriterAlreadyDefined, prmWriterId
 		      return
@@ -40,9 +40,13 @@ Implements itfLogingWriter,itfLogingInterface
 		    
 		  Next
 		  
-		  var tmp As New  internals.clLogingWriterEntry(prmWriterId, prmWriter)
+		  var tmp As New  internals.clLogWriterEntry(prmWriterId, prmWriter)
 		  
 		  writers.Append(tmp)
+		  
+		  return
+		  
+		  
 		End Sub
 	#tag EndMethod
 
@@ -106,7 +110,7 @@ Implements itfLogingWriter,itfLogingInterface
 		  // Returns:
 		  // (nothing)
 		  //
-		  For Each tmp As  internals.clLogingWriterEntry In writers
+		  For Each tmp As  internals.clLogWriterEntry In writers
 		    If tmp.identity = prmWriterId Then
 		      tmp.enabled = False
 		      return
@@ -131,7 +135,7 @@ Implements itfLogingWriter,itfLogingInterface
 		  // Returns:
 		  // (nothing)
 		  //
-		  For Each tmp As  internals.clLogingWriterEntry In writers
+		  For Each tmp As  internals.clLogWriterEntry In writers
 		    If tmp.identity = prmWriterId Then
 		      tmp.enabled = True
 		      return
@@ -140,8 +144,9 @@ Implements itfLogingWriter,itfLogingInterface
 		    
 		  Next
 		  
-		  
 		  WriteError cstMsgWriterNotFound, prmWriterId
+		  
+		  return
 		End Sub
 	#tag EndMethod
 
@@ -247,36 +252,44 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Shared Function GetDefaultLogingSupport() As clLoging
-		  If DefaultLoging = Nil Then
-		    DefaultLoging = New clLoging
+		Shared Function GetDefaultLogingSupport() As clLogManager
+		  If DefaultLogManager = Nil Then
+		    DefaultLogManager = New clLogManager
 		    
 		  End If
 		  
-		  Return DefaultLoging
+		  Return DefaultLogManager
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetProcessedMessage(MessageText as string, MessageParameters() as Variant) As string
+		  
+		  return self.internal_ProcessParameters(MessageText, MessageParameters)
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function internal_ProcessParameters(MessageText as string, the_parameters() as Variant) As string
+		Private Function internal_ProcessParameters(MessageText as string, MessageParameters() as Variant) As string
 		  // TODO: apply formatting
 		  
 		  var tmp_return As String = MessageText
 		  
-		  For i As Integer = 0 To the_parameters.Ubound
+		  For i As Integer = 0 To MessageParameters.Ubound
 		    var formattedParam as string
 		    
-		    select case the_parameters(i).Type
+		    select case MessageParameters(i).Type
 		      
 		    case Variant.TypeDouble
-		      formattedParam = str(the_parameters(i).DoubleValue, self.FormatForNumberParam)
+		      formattedParam = str(MessageParameters(i).DoubleValue, self.FormatForNumberParam)
 		      
 		    case Variant.TypeDateTime
-		      formattedParam = the_parameters(i).DateTimeValue.SQLDateTime
+		      formattedParam = MessageParameters(i).DateTimeValue.SQLDateTime
 		      
 		    case else
-		      formattedParam = the_parameters(i)
+		      formattedParam = MessageParameters(i)
 		      
 		    end select
 		    
@@ -290,41 +303,23 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub internal_writeitem_old2(MessageSeverity as string, MessageSource as string, MessageText as string)
-		  
-		  if self.AcceptedSeverity.Value(MessageSeverity) then
-		    
-		    var TimeStamp As String  = DateTime.Now.SQLDateTime
-		    
-		    For Each Writer As  internals.clLogingWriterEntry In writers
-		      If Writer.enabled Then
-		        Writer.log_writer.AddLogEntry(MessageSeverity, TimeStamp, MessageSource, MessageText)
-		        
-		      End If
-		      
-		    Next
-		    
-		  end if
-		  
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
 		Private Sub internal_WriteMessage(MessageSource as string, MessageSeverity as string, MessageText as string)
 		  
 		  if self.AcceptedSeverity.Value(MessageSeverity) then
 		    
 		    var TimeStamp As String  = DateTime.Now.SQLDateTime
 		    
-		    For Each Writer As  internals.clLogingWriterEntry In writers
+		    For Each Writer As  internals.clLogWriterEntry In writers
 		      If Writer.enabled Then
-		        Writer.log_writer.AddLogEntry(MessageSeverity, TimeStamp, MessageSource, MessageText)
+		        Writer.logWriter.AddLogEntry(MessageSeverity, TimeStamp, MessageSource, MessageText)
 		        
 		      End If
 		      
 		    Next
 		    
 		  end if
+		  
+		  return
 		  
 		End Sub
 	#tag EndMethod
@@ -418,6 +413,20 @@ Implements itfLogingWriter,itfLogingInterface
 		    
 		  End If
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ResetWriters()
+		  //
+		  // Remove all writers
+		  // Restore the default writer
+		  //
+		  
+		  writers.RemoveAll
+		  AddWriter cstInternalWriterId, Self
+		  
+		  Return
 		End Sub
 	#tag EndMethod
 
@@ -529,7 +538,7 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteError(MessageSource as string, MessageText as string, ParamArray the_parameters as variant)
+		Sub WriteError(MessageSource as string, MessageText as string, MessageParameters() as variant)
 		  //
 		  // Write an error message
 		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
@@ -559,15 +568,59 @@ Implements itfLogingWriter,itfLogingInterface
 		    End If
 		    
 		  Else
-		    internal_WriteMessage MessageSource, cstSeverityError, internal_ProcessParameters(MessageText, the_parameters)
+		    internal_WriteMessage MessageSource, cstSeverityError, internal_ProcessParameters(MessageText, MessageParameters)
 		    
 		  End If
+		  
+		  Return
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteFatalError(MessageSource as string, MessageText as string, ParamArray the_parameters as variant)
+		Sub WriteError(MessageSource as string, MessageText as string, ParamArray MessageParameters as variant)
+		  //
+		  // Write an error message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  // Error messages are fowarded to writers until the maximum error count is reached.
+		  // The internal counter reflects the actual number of calls to WriteError()
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  self.WriteError(MessageSource, MessageText, MessageParameters)
+		  // 
+		  // self.error_counter = self.error_counter + 1
+		  // 
+		  // If self.error_counter > self.error_limit Then
+		  // Return
+		  // 
+		  // Elseif self.error_counter =self.error_limit Then
+		  // If ErrorLimitIsFatal Then
+		  // writeFatalError MessageSource, cstMsgReachedErrorLimit, error_limit
+		  // 
+		  // Else
+		  // internal_WriteMessage MessageSource, cstSeverityWarning, cstMsgErrorMsgDisabled
+		  // 
+		  // End If
+		  // 
+		  // Else
+		  // internal_WriteMessage MessageSource, cstSeverityError, internal_ProcessParameters(MessageText, MessageParameters)
+		  // 
+		  // End If
+		  
+		  return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteFatalError(MessageSource as string, MessageText as string, MessageParameters() as variant)
 		  //
 		  // Write a fatal error message
 		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters. Processing stops after sending the message to all writers.
@@ -580,7 +633,7 @@ Implements itfLogingWriter,itfLogingInterface
 		  // (nothing)
 		  //
 		  
-		  internal_WriteMessage MessageSource, cstSeverityFatalError, internal_ProcessParameters(MessageText, the_parameters)
+		  internal_WriteMessage MessageSource, cstSeverityFatalError, internal_ProcessParameters(MessageText, MessageParameters)
 		  
 		  Quit -1
 		  
@@ -588,10 +641,10 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteInfo(MessageSource as string, MessageText as string, ParamArray the_parameters as Variant)
+		Sub WriteFatalError(MessageSource as string, MessageText as string, ParamArray MessageParameters as variant)
 		  //
-		  // Write an information message
-		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  // Write a fatal error message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters. Processing stops after sending the message to all writers.
 		  //
 		  // Parameters
 		  // - Message template
@@ -600,12 +653,16 @@ Implements itfLogingWriter,itfLogingInterface
 		  // Returns:
 		  // (nothing)
 		  //
-		  internal_WriteMessage MessageSource, cstSeverityInformation, internal_ProcessParameters(MessageText, the_parameters)
+		  
+		  internal_WriteMessage MessageSource, cstSeverityFatalError, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Quit -1
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteStatistics(MessageText as string, ParamArray the_parameters as Variant)
+		Sub WriteInfo(MessageSource as string, MessageText as string, MessageParameters() as Variant)
 		  //
 		  // Write an information message
 		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
@@ -617,7 +674,74 @@ Implements itfLogingWriter,itfLogingInterface
 		  // Returns:
 		  // (nothing)
 		  //
-		  internal_WriteMessage cstInternalSource, cstSeverityStatistics, internal_ProcessParameters(MessageText, the_parameters)
+		  
+		  internal_WriteMessage MessageSource, cstSeverityInformation, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteInfo(MessageSource as string, MessageText as string, ParamArray MessageParameters as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  internal_WriteMessage MessageSource, cstSeverityInformation, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteStatistics(MessageText as string, MessageParameters() as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  internal_WriteMessage cstInternalSource, cstSeverityStatistics, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteStatistics(MessageText as string, ParamArray MessageParameters as Variant)
+		  //
+		  // Write an information message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  internal_WriteMessage cstInternalSource, cstSeverityStatistics, internal_ProcessParameters(MessageText, MessageParameters)
+		  
+		  Return
+		  
 		End Sub
 	#tag EndMethod
 
@@ -632,12 +756,16 @@ Implements itfLogingWriter,itfLogingInterface
 		  // Returns:
 		  // (nothing)
 		  //
+		  
 		  WriteInfo cstInternalSource, cstMsgStatusMessage, warning_counter, error_counter
+		  
+		  Return
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub WriteWarning(MessageSource as string, MessageText as string, ParamArray the_parameters as variant)
+		Sub WriteWarning(MessageSource as string, MessageText as string, MessageParameters() as variant)
 		  //
 		  // Write an warning message
 		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
@@ -661,9 +789,49 @@ Implements itfLogingWriter,itfLogingInterface
 		    
 		    
 		  Else
-		    internal_WriteMessage MessageSource, cstSeverityWarning, internal_ProcessParameters(MessageText, the_parameters)
+		    internal_WriteMessage MessageSource, cstSeverityWarning, internal_ProcessParameters(MessageText, MessageParameters)
 		    
 		  End If
+		  
+		  return
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub WriteWarning(MessageSource as string, MessageText as string, ParamArray MessageParameters as variant)
+		  //
+		  // Write an warning message
+		  // The message may contain place holder %0, %1, ... replaced by corresponding parameters
+		  // Warning messages are fowarded to writers until the maximum warning count is reached.
+		  // The internal counter reflects the actual number of calls to WriteWarning()
+		  //
+		  // Parameters
+		  // - Message template
+		  // - List of parameters
+		  //
+		  // Returns:
+		  // (nothing)
+		  //
+		  
+		  
+		  self.WriteWarning(MessageSource, MessageText, MessageParameters)
+		  
+		  return 
+		  
+		  // self.warning_counter = self.warning_counter + 1
+		  // 
+		  // If self.warning_counter > self.warning_limit Then
+		  // Return
+		  // 
+		  // Elseif self.warning_counter = self.warning_limit Then
+		  // internal_WriteMessage MessageSource, cstSeverityWarning, cstMsgWarningMsgDisabled
+		  // 
+		  // 
+		  // Else
+		  // internal_WriteMessage MessageSource, cstSeverityWarning, internal_ProcessParameters(MessageText, MessageParameters)
+		  // 
+		  // End If
 		  
 		End Sub
 	#tag EndMethod
@@ -702,7 +870,7 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private Shared DefaultLoging As clLoging
+		Private Shared DefaultLogManager As clLogManager
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -792,7 +960,7 @@ Implements itfLogingWriter,itfLogingInterface
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private writers() As internals.clLogingWriterEntry
+		Private writers() As internals.clLogWriterEntry
 	#tag EndProperty
 
 
