@@ -477,6 +477,13 @@ End
 		  
 		  my_loging.AddWriter "TF1", New clTextfileLogWriter( SpecialFolder.Desktop, "test%.txt","%")
 		  
+		  // Here I expect to have autocomplete for
+		  // - clLogManager
+		  // - clListboxLogWriter
+		  // The other classes are private and should not appeear here 
+		  //
+		  // (uncomment)
+		  // var m as cll
 		  
 		End Sub
 	#tag EndEvent
