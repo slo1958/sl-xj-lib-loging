@@ -1,5 +1,5 @@
 #tag Class
-Protected Class clLogManager
+Class clLogManager
 Implements itfLogWriter
 	#tag Method, Flags = &h21
 		Private Sub AddLogEntry(MessageSeverity as string, MessageTime as string, MessageSource as string, MessageText as string)
@@ -31,7 +31,7 @@ Implements itfLogWriter
 		  // (nothing)
 		  //
 		  
-		  For Each tmp As  internals.clLogWriterEntry In writers
+		  For Each tmp As  clLogWriterEntry In writers
 		    If tmp.identity = prmWriterId Then
 		      WriteError cstMsgWriterAlreadyDefined, prmWriterId
 		      return
@@ -40,7 +40,7 @@ Implements itfLogWriter
 		    
 		  Next
 		  
-		  var tmp As New  internals.clLogWriterEntry(prmWriterId, prmWriter)
+		  var tmp As New  clLogWriterEntry(prmWriterId, prmWriter)
 		  
 		  writers.Append(tmp)
 		  
@@ -111,7 +111,7 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  For Each tmp As  internals.clLogWriterEntry In writers
+		  For Each tmp As  clLogWriterEntry In writers
 		    If tmp.identity = prmWriterId Then
 		      tmp.enabled = False
 		      return
@@ -136,7 +136,7 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  For Each tmp As  internals.clLogWriterEntry In writers
+		  For Each tmp As  clLogWriterEntry In writers
 		    If tmp.identity = prmWriterId Then
 		      tmp.enabled = True
 		      return
@@ -162,7 +162,7 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  var tmp As internals.clLogingTaskTimer =  internals.clLogingTaskTimer(RunningTasks.Lookup(pTaskId, nil))
+		  var tmp As clLogingTaskTimer =  clLogingTaskTimer(RunningTasks.Lookup(pTaskId, nil))
 		  
 		  if tmp = nil then
 		    WriteError cstInternalSource, cstMsgTaskNotFound, pTaskId, CurrentMethodName
@@ -219,10 +219,10 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  var methodInfo as internals.clLogingMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
+		  var methodInfo as clLogingMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
 		  
 		  if methodInfo = nil then 
-		    methodInfo = new  internals.clLogingMethodTimer(MethodName)
+		    methodInfo = new  clLogingMethodTimer(MethodName)
 		    self.TrackedMethods.Value(MethodName) = methodInfo
 		    
 		  end if
@@ -243,7 +243,7 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  var methodInfo as internals.clLogingMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
+		  var methodInfo as clLogingMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
 		  
 		  if methodInfo <> nil then methodInfo.ExitMethod
 		  
@@ -310,7 +310,7 @@ Implements itfLogWriter
 		    
 		    var TimeStamp As String  = DateTime.Now.SQLDateTime
 		    
-		    For Each Writer As  internals.clLogWriterEntry In writers
+		    For Each Writer As  clLogWriterEntry In writers
 		      If Writer.enabled Then
 		        Writer.logWriter.AddLogEntry(MessageSeverity, TimeStamp, MessageSource, MessageText)
 		        
@@ -336,7 +336,7 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  var methodInfo as internals.clLogingMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
+		  var methodInfo as clLogingMethodTimer = self.TrackedMethods.Lookup(MethodName, nil)
 		  
 		  if methodInfo <> nil then  
 		    var p as pair = methodInfo.MethodStats
@@ -510,7 +510,7 @@ Implements itfLogWriter
 		  // Returns:
 		  // (nothing)
 		  //
-		  var tmp As New  internals.clLogingTaskTimer(pTaskId)
+		  var tmp As New  clLogingTaskTimer(pTaskId)
 		  RunningTasks.value(pTaskId) = tmp
 		  
 		  WriteInfo cstInternalSource, cstMsgStartTask, pTaskId
@@ -1003,7 +1003,7 @@ Implements itfLogWriter
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private writers() As internals.clLogWriterEntry
+		Private writers() As clLogWriterEntry
 	#tag EndProperty
 
 

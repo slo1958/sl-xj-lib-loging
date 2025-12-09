@@ -1,0 +1,52 @@
+How can we manage the scope of the items exported by a library ?
+
+For example, we have a class c1. Internally, it uses object of classes c2 and c3. Those classes have no purpose outside the context of c1.
+
+I tried to add c1, c2 and c3, mark c1 as Global then c2 and c3 as private.
+
+The problem is that c2 and c3 are still visible in intellisense (not sure about the name) and the compiler ignores the scope, until it discover the class is private.
+
+See below for details
+
+
+
+
+A
+
+ problem with libraries is coming from the handling of scope of items in a module. The problem is not related to libraries but makes using libraries more difficult.
+
+
+Let's say I create a module, named ScopeTest with two classes: clGlobal (with scope = global) and clPrivate (with scope = private)
+
+1/ Now, I add 'var k1 as new ScopeTest.clPrivate'
+
+The compiler return an error 'This type is private and can only be used within its module'
+
+2/ Then, I add 'var k2 as new clPrivate'
+I get the error 
+	'Can't find a type with this name. Did you mean class ScopeTest.clPrivate?'
+
+This should not happen.
+
+3/ If in a method, I start to type 'ScopeTest.cl', I'm getting a list with both clPrivate and clGlobal.
+
+
+4/ To the class clGlobal, I add two methods:
+mPublic() with scope set to public
+mPrivate() with scope set to priavte
+
+Then I add
+var k4 as new ScopeTest.cLGlobal
+
+when I type 'k4.', I only get mPublic()
+
+
+Expected behaviour
+1/ Ok, similar to what we have if I reference a private method in an object
+
+2/ Should get that message if the referenced item is accessible
+
+3/ Should not get items declared as private
+
+4/ Expected behaviour
+

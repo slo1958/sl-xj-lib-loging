@@ -1,5 +1,5 @@
 #tag Class
-Protected Class clLogingMessageEntry
+Private Class clLogingMessageEntry
 	#tag Method, Flags = &h0
 		Sub Constructor(MessageTextId as string, MessageSeverity as string, MessageText as string)
 		  MessageId = MessageTextId

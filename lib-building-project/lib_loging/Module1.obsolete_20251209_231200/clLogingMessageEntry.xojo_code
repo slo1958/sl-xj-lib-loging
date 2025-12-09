@@ -1,53 +1,30 @@
 #tag Class
-Protected Class clLogWriterEntry
+Private Class clLogingMessageEntry
 	#tag Method, Flags = &h0
-		Sub Constructor(WriterID as String, Writer as itfLogWriter)
+		Sub Constructor(MessageTextId as string, MessageSeverity as string, MessageText as string)
+		  MessageId = MessageTextId
+		  MessageSeverity = MessageSeverity
+		  MessageText = MessageText
 		  
-		  self.identity = WriterID
-		  self.enabled = True
-		  self.logWriter = Writer
 		  
 		End Sub
 	#tag EndMethod
 
 
-	#tag Note, Name = read me
-		Internal class used by clLoging to store log writer information
-		
-		
-	#tag EndNote
-
-
-	#tag Property, Flags = &h0
-		enabled As Boolean
+	#tag Property, Flags = &h21
+		Private MessageId As string
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		identity As String
+	#tag Property, Flags = &h21
+		Private MessageSeverity As String
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		logWriter As itfLogWriter
+	#tag Property, Flags = &h21
+		Private MessageText As String
 	#tag EndProperty
 
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="enabled"
-			Visible=false
-			Group="Behavior"
-			InitialValue=""
-			Type="Boolean"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="identity"
-			Visible=false
-			Group="Behavior"
-			InitialValue=""
-			Type="String"
-			EditorType="MultiLineEditor"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true

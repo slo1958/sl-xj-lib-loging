@@ -1,67 +1,30 @@
 #tag Class
-Protected Class clLogingTaskTimer
+Private Class clLogingMessageEntry
 	#tag Method, Flags = &h0
-		Function Completed() As Boolean
-		  return end_time > 0
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Constructor(pTaskId as string)
-		  
-		  identifier = pTaskId
-		  start_time = System.Microseconds
-		  end_time = -1
+		Sub Constructor(MessageTextId as string, MessageSeverity as string, MessageText as string)
+		  MessageId = MessageTextId
+		  MessageSeverity = MessageSeverity
+		  MessageText = MessageText
 		  
 		  
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Done()
-		  end_time = System.Microseconds
-		  
-		  
-		End Sub
-	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function GetExecutionTime() As double
-		  if end_time > 0 then
-		    return (end_time - start_time) / 1000000
-		    
-		  else
-		    return 0
-		    
-		  end if
-		  
-		End Function
-	#tag EndMethod
-
-
-	#tag Property, Flags = &h0
-		end_time As Double
+	#tag Property, Flags = &h21
+		Private MessageId As string
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		identifier As String
+	#tag Property, Flags = &h21
+		Private MessageSeverity As String
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		start_time As Double
+	#tag Property, Flags = &h21
+		Private MessageText As String
 	#tag EndProperty
 
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="identifier"
-			Visible=false
-			Group="Behavior"
-			InitialValue=""
-			Type="String"
-			EditorType="MultiLineEditor"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true

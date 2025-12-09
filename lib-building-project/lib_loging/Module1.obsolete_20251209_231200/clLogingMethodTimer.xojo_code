@@ -1,5 +1,5 @@
 #tag Class
-Protected Class clLogingMethodTimer
+Private Class clLogingMethodTimer
 	#tag Method, Flags = &h0
 		Sub Constructor(prmName as string)
 		  
@@ -105,7 +105,7 @@ Protected Class clLogingMethodTimer
 			Group="Behavior"
 			InitialValue=""
 			Type="string"
-			EditorType=""
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

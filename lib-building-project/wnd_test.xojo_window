@@ -26,24 +26,29 @@ Begin DesktopWindow wnd_test
    Visible         =   True
    Width           =   600
    Begin DesktopListBox Listbox1
-      AutoDeactivate  =   True
-      AutoHideScrollbars=   True
+      AllowAutoDeactivate=   True
+      AllowAutoHideScrollbars=   True
+      AllowExpandableRows=   False
+      AllowFocusRing  =   True
+      AllowResizableColumns=   False
+      AllowRowDragging=   False
+      AllowRowReordering=   False
       Bold            =   False
-      Border          =   True
       ColumnCount     =   1
-      ColumnsResizable=   False
       ColumnWidths    =   ""
       DefaultRowHeight=   -1
+      DropIndicatorVisible=   False
       Enabled         =   True
-      EnableDrag      =   False
-      EnableDragReorder=   False
-      GridLinesHorizontal=   0
-      GridLinesVertical=   0
-      HasHeading      =   False
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      GridLineStyle   =   0
+      HasBorder       =   True
+      HasHeader       =   True
+      HasHorizontalScrollbar=   False
+      HasVerticalScrollbar=   True
       HeadingIndex    =   -1
       Height          =   133
-      HelpTag         =   ""
-      Hierarchical    =   False
       Index           =   -2147483648
       InitialParent   =   ""
       InitialValue    =   ""
@@ -55,36 +60,31 @@ Begin DesktopWindow wnd_test
       LockRight       =   True
       LockTop         =   True
       RequiresSelection=   False
+      RowSelectionType=   0
       Scope           =   0
-      ScrollbarHorizontal=   False
-      ScrollBarVertical=   True
-      SelectionType   =   0
-      ShowDropIndicator=   False
       TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   20
       Transparent     =   False
       Underline       =   False
-      UseFocusRing    =   True
       Visible         =   True
       Width           =   550
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
    Begin DesktopButton pbStartHA1
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "Start HA1"
       Default         =   False
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -94,13 +94,12 @@ Begin DesktopWindow wnd_test
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
+      MacButtonStyle  =   0
       Scope           =   0
       TabIndex        =   1
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   470
       Transparent     =   False
       Underline       =   False
@@ -108,24 +107,29 @@ Begin DesktopWindow wnd_test
       Width           =   100
    End
    Begin DesktopListBox Listbox5
-      AutoDeactivate  =   True
-      AutoHideScrollbars=   True
+      AllowAutoDeactivate=   True
+      AllowAutoHideScrollbars=   True
+      AllowExpandableRows=   False
+      AllowFocusRing  =   True
+      AllowResizableColumns=   False
+      AllowRowDragging=   False
+      AllowRowReordering=   False
       Bold            =   False
-      Border          =   True
       ColumnCount     =   3
-      ColumnsResizable=   False
       ColumnWidths    =   ""
       DefaultRowHeight=   -1
+      DropIndicatorVisible=   False
       Enabled         =   True
-      EnableDrag      =   False
-      EnableDragReorder=   False
-      GridLinesHorizontal=   0
-      GridLinesVertical=   0
-      HasHeading      =   False
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      GridLineStyle   =   0
+      HasBorder       =   True
+      HasHeader       =   True
+      HasHorizontalScrollbar=   False
+      HasVerticalScrollbar=   True
       HeadingIndex    =   -1
       Height          =   133
-      HelpTag         =   ""
-      Hierarchical    =   False
       Index           =   -2147483648
       InitialParent   =   ""
       InitialValue    =   ""
@@ -137,45 +141,44 @@ Begin DesktopWindow wnd_test
       LockRight       =   True
       LockTop         =   True
       RequiresSelection=   False
+      RowSelectionType=   0
       Scope           =   0
-      ScrollbarHorizontal=   False
-      ScrollBarVertical=   True
-      SelectionType   =   0
-      ShowDropIndicator=   False
       TabIndex        =   3
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   310
       Transparent     =   False
       Underline       =   False
-      UseFocusRing    =   True
       Visible         =   True
       Width           =   550
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
    Begin DesktopListBox Listbox4
-      AutoDeactivate  =   True
-      AutoHideScrollbars=   True
+      AllowAutoDeactivate=   True
+      AllowAutoHideScrollbars=   True
+      AllowExpandableRows=   False
+      AllowFocusRing  =   True
+      AllowResizableColumns=   False
+      AllowRowDragging=   False
+      AllowRowReordering=   False
       Bold            =   False
-      Border          =   True
       ColumnCount     =   2
-      ColumnsResizable=   False
       ColumnWidths    =   ""
       DefaultRowHeight=   -1
+      DropIndicatorVisible=   False
       Enabled         =   True
-      EnableDrag      =   False
-      EnableDragReorder=   False
-      GridLinesHorizontal=   0
-      GridLinesVertical=   0
-      HasHeading      =   False
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      GridLineStyle   =   0
+      HasBorder       =   True
+      HasHeader       =   True
+      HasHorizontalScrollbar=   False
+      HasVerticalScrollbar=   True
       HeadingIndex    =   -1
       Height          =   133
-      HelpTag         =   ""
-      Hierarchical    =   False
       Index           =   -2147483648
       InitialParent   =   ""
       InitialValue    =   ""
@@ -187,36 +190,31 @@ Begin DesktopWindow wnd_test
       LockRight       =   True
       LockTop         =   True
       RequiresSelection=   False
+      RowSelectionType=   0
       Scope           =   0
-      ScrollbarHorizontal=   False
-      ScrollBarVertical=   True
-      SelectionType   =   0
-      ShowDropIndicator=   False
       TabIndex        =   4
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   165
       Transparent     =   False
       Underline       =   False
-      UseFocusRing    =   True
       Visible         =   True
       Width           =   550
       _ScrollOffset   =   0
       _ScrollWidth    =   -1
    End
    Begin DesktopButton pbEndHA1
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "End HA1"
       Default         =   False
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -226,13 +224,12 @@ Begin DesktopWindow wnd_test
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
+      MacButtonStyle  =   0
       Scope           =   0
       TabIndex        =   5
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   470
       Transparent     =   False
       Underline       =   False
@@ -240,15 +237,16 @@ Begin DesktopWindow wnd_test
       Width           =   100
    End
    Begin DesktopButton pbSummary
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "Summary"
       Default         =   False
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -258,13 +256,12 @@ Begin DesktopWindow wnd_test
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
+      MacButtonStyle  =   0
       Scope           =   0
       TabIndex        =   6
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   494
       Transparent     =   False
       Underline       =   False
@@ -272,15 +269,16 @@ Begin DesktopWindow wnd_test
       Width           =   96
    End
    Begin DesktopButton pbStartHA2
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "Start HA2"
       Default         =   False
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -290,13 +288,12 @@ Begin DesktopWindow wnd_test
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
+      MacButtonStyle  =   0
       Scope           =   0
       TabIndex        =   7
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   502
       Transparent     =   False
       Underline       =   False
@@ -304,15 +301,16 @@ Begin DesktopWindow wnd_test
       Width           =   100
    End
    Begin DesktopButton pbEndHA2
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "End HA2"
       Default         =   False
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -322,13 +320,12 @@ Begin DesktopWindow wnd_test
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
+      MacButtonStyle  =   0
       Scope           =   0
       TabIndex        =   8
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   502
       Transparent     =   False
       Underline       =   False
@@ -336,15 +333,16 @@ Begin DesktopWindow wnd_test
       Width           =   100
    End
    Begin DesktopButton pbEndAll
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "End all"
       Default         =   False
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -354,13 +352,12 @@ Begin DesktopWindow wnd_test
       LockLeft        =   True
       LockRight       =   False
       LockTop         =   True
+      MacButtonStyle  =   0
       Scope           =   0
       TabIndex        =   9
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "Verdana"
-      TextSize        =   11.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   470
       Transparent     =   False
       Underline       =   False
@@ -386,12 +383,14 @@ Begin DesktopWindow wnd_test
       TabPanelIndex   =   0
    End
    Begin DesktopCheckBox ckTimerTask1
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
       Caption         =   "Repeat task 1"
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -402,27 +401,27 @@ Begin DesktopWindow wnd_test
       LockRight       =   False
       LockTop         =   True
       Scope           =   0
-      State           =   0
       TabIndex        =   10
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   540
       Transparent     =   False
       Underline       =   False
       Value           =   False
       Visible         =   True
+      VisualState     =   0
       Width           =   120
    End
    Begin DesktopCheckBox ckTimerTask2
-      AutoDeactivate  =   True
+      AllowAutoDeactivate=   True
       Bold            =   False
       Caption         =   "Repeat task 2"
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -433,18 +432,16 @@ Begin DesktopWindow wnd_test
       LockRight       =   False
       LockTop         =   True
       Scope           =   0
-      State           =   0
       TabIndex        =   11
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   540
       Transparent     =   False
       Underline       =   False
       Value           =   False
       Visible         =   True
+      VisualState     =   0
       Width           =   120
    End
    Begin Timer Timer3
@@ -473,12 +470,13 @@ End
 		Sub Opening()
 		  // attach three logwriters updating a listbox
 		  var my_loging As clLogManager = clLogManager.GetDefaultLogingSupport
-		   
+		  
 		  my_loging.AddWriter ("LB1", New clListBoxLogWriter(ListBox1))
 		  my_loging.AddWriter "LB2", New clListBoxLogWriter(ListBox4)
 		  my_loging.AddWriter "LB3", New clListBoxLogWriter(ListBox5)
 		  
 		  my_loging.AddWriter "TF1", New clTextfileLogWriter( SpecialFolder.Desktop, "test%.txt","%")
+		  
 		  
 		End Sub
 	#tag EndEvent
@@ -666,6 +664,14 @@ End
 #tag EndEvents
 #tag ViewBehavior
 	#tag ViewProperty
+		Name="HasTitleBar"
+		Visible=true
+		Group="Frame"
+		InitialValue="True"
+		Type="Boolean"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
 		Name="MinimumWidth"
 		Visible=true
 		Group="Size"
@@ -714,8 +720,7 @@ End
 			"6 - Rounded Window"
 			"7 - Global Floating Window"
 			"8 - Sheet Window"
-			"9 - Metal Window"
-			"11 - Modeless Dialog"
+			"9 - Modeless Dialog"
 		#tag EndEnumValues
 	#tag EndViewProperty
 	#tag ViewProperty
@@ -778,8 +783,8 @@ End
 		Visible=true
 		Group="Background"
 		InitialValue="&hFFFFFF"
-		Type="Color"
-		EditorType="Color"
+		Type="ColorGroup"
+		EditorType="ColorGroup"
 	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Backdrop"
@@ -842,7 +847,7 @@ End
 		Visible=true
 		Group="Menus"
 		InitialValue=""
-		Type="MenuBar"
+		Type="DesktopMenuBar"
 		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
