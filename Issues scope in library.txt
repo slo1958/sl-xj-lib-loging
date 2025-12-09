@@ -1,24 +1,34 @@
-How can we manage the scope of the items exported by a library ?
+Classes flagged as private are visible outside the module where they are declared or how can we manage the scope of the items exported by a library ?
 
 For example, we have a class c1. Internally, it uses object of classes c2 and c3. Those classes have no purpose outside the context of c1.
 
 I tried to add c1, c2 and c3, mark c1 as Global then c2 and c3 as private.
 
-The problem is that c2 and c3 are still visible in intellisense (not sure about the name) and the compiler ignores the scope, until it discover the class is private.
+The problem is that c2 and c3 are still visible in autocomplete and the compiler ignores the scope, until it discover the class is private (detailed example below)
 
-See below for details
+Source code
+Project: https://github.com/slo1958/sl-xj-lib-loging.git
+Branch: Testing-Project-library-with-Xojo2025r3  
 
+The folder contains:
+- subfolder _ScopeTest, the project with the code for the example below
+- subfolder lib-building-project: the project used to create the library
+- subfolder test-project: a project using the library
 
+Open the project in test-project
+Navigate to the handler of the open event of the only window
+Read comments and follow instruction
 
-
-A
-
- problem with libraries is coming from the handling of scope of items in a module. The problem is not related to libraries but makes using libraries more difficult.
-
+====
+Detailed description
+The code is in the subfolder _ScopeTest
+A problem with libraries is coming from the handling of scope of items in a module. The problem is not related to libraries but makes using libraries more difficult.
 
 Let's say I create a module, named ScopeTest with two classes: clGlobal (with scope = global) and clPrivate (with scope = private)
 
-1/ Now, I add 'var k1 as new ScopeTest.clPrivate'
+Somewhere, outside the module, for example in the open event handler of the unique window:
+
+1/ I add 'var k1 as new ScopeTest.clPrivate'
 
 The compiler return an error 'This type is private and can only be used within its module'
 
@@ -38,7 +48,7 @@ mPrivate() with scope set to priavte
 Then I add
 var k4 as new ScopeTest.cLGlobal
 
-when I type 'k4.', I only get mPublic()
+when I type 'k4.', autocomplete only offers mPublic()
 
 
 Expected behaviour
@@ -49,4 +59,3 @@ Expected behaviour
 3/ Should not get items declared as private
 
 4/ Expected behaviour
-
