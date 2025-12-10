@@ -1,5 +1,5 @@
 #tag Class
-Private Class clLogingMethodTimer
+ Attributes ( Hidden = False ) Private Class clLogingMethodTimer
 	#tag Method, Flags = &h0
 		Sub Constructor(prmName as string)
 		  

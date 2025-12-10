@@ -476,7 +476,8 @@ End
 		  my_loging.AddWriter "LB3", New clListBoxLogWriter(ListBox5)
 		  
 		  my_loging.AddWriter "TF1", New clTextfileLogWriter( SpecialFolder.Desktop, "test%.txt","%")
-		    
+		  
+		  
 		End Sub
 	#tag EndEvent
 

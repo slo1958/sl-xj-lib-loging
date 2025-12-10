@@ -1,5 +1,5 @@
 #tag Class
-Private Class clLogingTaskTimer
+ Attributes ( Hidden ) Private Class clLogingTaskTimer
 	#tag Method, Flags = &h0
 		Function Completed() As Boolean
 		  return end_time > 0

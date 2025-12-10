@@ -1,5 +1,5 @@
 #tag Class
-Private Class clLogWriterEntry
+ Attributes ( Hidden ) Private Class clLogWriterEntry
 	#tag Method, Flags = &h0
 		Sub Constructor(WriterID as String, Writer as itfLogWriter)
 		  
