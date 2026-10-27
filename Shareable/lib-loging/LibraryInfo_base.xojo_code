@@ -1,12 +1,12 @@
 #tag Module
 Protected Module LibraryInfo_base
-	#tag Constant, Name = LibraryAuthor, Type = String, Dynamic = False, Default = \"SLO1958", Scope = Public
+	#tag Constant, Name = LibraryAuthor, Type = String, Dynamic = False, Default = \"SLO1958", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = LibraryName, Type = String, Dynamic = False, Default = \"lib-loging", Scope = Public
+	#tag Constant, Name = LibraryName, Type = String, Dynamic = False, Default = \"lib-loging", Scope = Protected
 	#tag EndConstant
 
-	#tag Constant, Name = LibraryVersion, Type = String, Dynamic = False, Default = \"2026.1", Scope = Public
+	#tag Constant, Name = LibraryVersion, Type = String, Dynamic = False, Default = \"2026.1", Scope = Protected
 	#tag EndConstant
 
 
